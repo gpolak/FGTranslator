@@ -39,12 +39,12 @@
     FGTranslator *translator;
     
     // using Google Translate
-    static NSString *GOOGLE_API_KEY = @"AIzaSyDeI62kbspqeHX7mK9m9k4SY8x8YOCPSes";
+    static NSString *GOOGLE_API_KEY = @"your_key_here";
     translator = [[FGTranslator alloc] initWithGoogleAPIKey:GOOGLE_API_KEY];
     
     // using Bing Translate
-//    static NSString *BING_CLIENT_ID = @"fgtranslator_test";
-//    static NSString *BING_CLIENT_SECRET = @"Z3Doe5gMcquoJN3pJaJLejMKsP+1M0RrKDEuE+v4oBM=";
+//    static NSString *BING_CLIENT_ID = @"your_id_here";
+//    static NSString *BING_CLIENT_SECRET = @"your_secret_here";
 //    translator = [[FGTranslator alloc] initWithBingAzureClientId:BING_CLIENT_ID secret:BING_CLIENT_SECRET];
     
     [translator translateText:self.textView.text
