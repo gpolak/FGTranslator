@@ -37,7 +37,7 @@
 
 - (BOOL)isValid
 {
-    if (!self.expiry)
+    if (!self.token || !self.expiry)
         return NO;
     
     return [self.expiry timeIntervalSinceNow] > 0;

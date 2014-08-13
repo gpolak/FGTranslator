@@ -13,4 +13,6 @@
 - (NSUInteger)wordCount;
 - (NSUInteger)wordCharacterCount;
 
++ (NSString *)urlEncodedStringFromString:(NSString *)original;
+
 @end

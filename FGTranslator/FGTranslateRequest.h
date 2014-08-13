@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AFNetworking.h>
 
 extern NSString *const FG_TRANSLATOR_ERROR_DOMAIN;
 
@@ -22,10 +23,17 @@ enum
 
 @interface FGTranslateRequest : NSObject
 
-+ (void)googleTranslateMessage:(NSString *)message
-                    withSource:(NSString *)source
-                        target:(NSString *)target
-                           key:(NSString *)key
-                    completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
++ (AFHTTPRequestOperation *)googleTranslateMessage:(NSString *)message
+                                        withSource:(NSString *)source
+                                            target:(NSString *)target
+                                               key:(NSString *)key
+                                        completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
+
++ (AFHTTPRequestOperation *)bingTranslateMessage:(NSString *)message
+                                      withSource:(NSString *)source
+                                          target:(NSString *)target
+                                        clientId:(NSString *)clientId
+                                    clientSecret:(NSString *)clientSecret
+                                      completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
 
 @end

@@ -14,22 +14,35 @@
 
 @end
 
+
 @implementation ViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    static NSString *GOOGLE_API_KEY = @"your_key_here";
+    
+}
+
+- (IBAction)translate:(id)sender
+{
+    static NSString *GOOGLE_API_KEY = @"your_key";
+    
+    static NSString *BING_CLIENT_ID = @"your_id";
+    static NSString *BING_CLIENT_SECRET = @"your_secret";
     
     FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:GOOGLE_API_KEY];
-    [translator translateText:@"Bonjour"
+    translator.preferSourceGuess = NO;
+    [translator translateText:@"Bonjour monsieur, comment ca va?"
                    withSource:nil
                        target:nil
                    completion:^(NSError *error, NSString *translated, NSString *source)
-    {
-        NSLog(@">>trans: %@", translated);
-    }];
+     {
+         if (error)
+             NSLog(@"error:%@", error);
+         else
+             NSLog(@">>trans (%@): %@", source, translated);
+     }];
 }
 
 - (void)didReceiveMemoryWarning

@@ -9,36 +9,23 @@
 #import <Foundation/Foundation.h>
 
 typedef NSInteger FGTranslatorError;
-typedef NSInteger FGTranslationState;
-
-enum FGTranslationState
-{
-    FGTranslationStateNone = 0,
-    FGTranslationStateTranslated = 1,
-    FGTranslationStateSame = 2,
-    FGTranslationStateUnavailable = 3
-};
 
 enum FGTranslatorError
 {
     FGTranslatorErrorUnableToTranslate = 0,
     FGTranslatorErrorNetworkError = 1,
-    FGTranslatorErrorSame = 2
+    FGTranslatorErrorSame = 2,
+    FGTranslatorErrorTranslationInProgress = 3,
+    FGTranslatorErrorAlreadyTranslated = 4,
 };
 
 @interface FGTranslator : NSObject
 {
-    /*
-     * -1 = cancelled
-     * 0 = initial
-     * 1 = first try
-     * 2 = finished
-     */
     // TODO: is this needed?
-    NSInteger _state;
-    
     __strong FGTranslator *_retained_self;
 }
+
+@property (nonatomic) BOOL preferSourceGuess;
 
 @property (nonatomic, readonly) NSString *googleAPIKey;
 @property (nonatomic, readonly) NSString *azureClientId;
