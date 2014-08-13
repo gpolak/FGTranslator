@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>CDF00E31-F0B6-4867-A563-B89FD708A880</string>
+	<key>IDESourceControlProjectName</key>
+	<string>FGTranslatorDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E99F1C15-7BD2-49D3-B68F-49836BC38854</key>
+		<string>ssh://github.com/gpolak/FGTranslator.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>FGTranslatorDemo/FGTranslatorDemo.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E99F1C15-7BD2-49D3-B68F-49836BC38854</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/gpolak/FGTranslator.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E99F1C15-7BD2-49D3-B68F-49836BC38854</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E99F1C15-7BD2-49D3-B68F-49836BC38854</string>
+			<key>IDESourceControlWCCName</key>
+			<string>FGTranslator</string>
+		</dict>
+	</array>
+</dict>
+</plist>
