@@ -17,12 +17,11 @@ enum FGTranslatorError
     FGTranslatorErrorSame = 2,
     FGTranslatorErrorTranslationInProgress = 3,
     FGTranslatorErrorAlreadyTranslated = 4,
+    FGTranslatorErrorMissingCredentials = 5
 };
 
 @interface FGTranslator : NSObject
 {
-    // TODO: is this needed?
-    __strong FGTranslator *_retained_self;
 }
 
 @property (nonatomic) BOOL preferSourceGuess;
@@ -47,5 +46,6 @@ typedef void (^FGTranslatorCompletionHandler)(NSError *error, NSString *translat
 - (void)cancelTranslation;
 
 + (void)flushCache;
++ (void)flushCredentials;
 
 @end

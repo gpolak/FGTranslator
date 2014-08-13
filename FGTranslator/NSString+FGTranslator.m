@@ -37,6 +37,7 @@
 + (NSString *)urlEncodedStringFromString:(NSString *)original
 {
     NSMutableString *escaped = [NSMutableString stringWithString:[original stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
     [escaped replaceOccurrencesOfString:@"$" withString:@"%24" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
     [escaped replaceOccurrencesOfString:@"&" withString:@"%26" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];
     [escaped replaceOccurrencesOfString:@"+" withString:@"%2B" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [escaped length])];

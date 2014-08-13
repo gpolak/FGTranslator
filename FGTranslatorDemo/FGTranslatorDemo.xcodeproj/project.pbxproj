@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4EA9B61D199BD2F10025C8C6 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA9B61C199BD2F10025C8C6 /* XMLDictionary.m */; };
 		5ECA5B72199AE40900C9C378 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ECA5B71199AE40800C9C378 /* Foundation.framework */; };
 		5ECA5B74199AE40900C9C378 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ECA5B73199AE40900C9C378 /* CoreGraphics.framework */; };
 		5ECA5B76199AE40900C9C378 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ECA5B75199AE40900C9C378 /* UIKit.framework */; };
@@ -24,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4EA9B61B199BD2F10025C8C6 /* XMLDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
+		4EA9B61C199BD2F10025C8C6 /* XMLDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
 		5ECA5B6E199AE40800C9C378 /* FGTranslatorDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FGTranslatorDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ECA5B71199AE40800C9C378 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5ECA5B73199AE40900C9C378 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -66,6 +69,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4EA9B61A199BD2F10025C8C6 /* XMLDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				4EA9B61B199BD2F10025C8C6 /* XMLDictionary.h */,
+				4EA9B61C199BD2F10025C8C6 /* XMLDictionary.m */,
+			);
+			path = XMLDictionary;
+			sourceTree = "<group>";
+		};
 		5ECA5B65199AE40800C9C378 = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +137,7 @@
 		5ECA5BA6199AE8CB00C9C378 /* FGTranslator */ = {
 			isa = PBXGroup;
 			children = (
+				4EA9B61A199BD2F10025C8C6 /* XMLDictionary */,
 				5ECA5BA7199AE8CB00C9C378 /* FGAzureToken.h */,
 				5ECA5BA8199AE8CB00C9C378 /* FGAzureToken.m */,
 				5ECA5BA9199AE8CB00C9C378 /* FGTranslator.h */,
@@ -239,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5ECA5B88199AE40900C9C378 /* ViewController.m in Sources */,
+				4EA9B61D199BD2F10025C8C6 /* XMLDictionary.m in Sources */,
 				5ECA5BAF199AEDFD00C9C378 /* FGTranslateRequest.m in Sources */,
 				5ECA5BB2199AEF0A00C9C378 /* NSString+FGTranslator.m in Sources */,
 				5ECA5B82199AE40900C9C378 /* AppDelegate.m in Sources */,

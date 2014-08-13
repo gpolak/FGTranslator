@@ -67,12 +67,6 @@ enum FGTranslatorState
     return self;
 }
 
-// TODO: remove this
-- (void)dealloc
-{
-    NSLog(@"FGTranslator dealloc called");
-}
-
 + (NSCache *)translationCache
 {
     static dispatch_once_t pred = 0;
@@ -81,6 +75,11 @@ enum FGTranslatorState
         translationCache = [[NSCache alloc] init];
     });
     return translationCache;
+}
+
++ (void)flushCredentials
+{
+    [FGTranslateRequest flushCredentials];
 }
 
 + (void)flushCache
@@ -114,6 +113,14 @@ enum FGTranslatorState
 {
     if (!completion || !text || text.length == 0)
         return;
+    
+    if (self.googleAPIKey.length == 0 && (self.azureClientId.length == 0 || self.azureClientSecret.length == 0))
+    {
+        NSError *error = [self errorWithCode:FGTranslatorErrorMissingCredentials
+                                 description:@"missing Google or Bing credentials"];
+        completion(error, nil, nil);
+        return;
+    }
     
     if (self.translatorState == FGTranslatorStateInProgress)
     {
@@ -154,47 +161,80 @@ enum FGTranslatorState
     if (self.preferSourceGuess && [self shouldGuessSourceWithText:text])
         source = nil;
     
-//    _retained_self = self;
-    
     self.completionHandler = completion;
     
-    self.operation = [FGTranslateRequest googleTranslateMessage:text
-                                                     withSource:source
-                                                         target:target
-                                                            key:self.googleAPIKey
-                                                     completion:^(NSString *translatedMessage, NSString *detectedSource, NSError *error)
+    if (self.googleAPIKey)
     {
-        // TODO: handle properly
-        if (error)
+        self.operation = [FGTranslateRequest googleTranslateMessage:text
+                                                         withSource:source
+                                                             target:target
+                                                                key:self.googleAPIKey
+                                                         completion:^(NSString *translatedMessage, NSString *detectedSource, NSError *error)
         {
-            FGTranslatorError errorState = error.code == FGTranslationErrorBadRequest ? FGTranslatorErrorUnableToTranslate : FGTranslatorErrorNetworkError;
-            
-            NSError *fgError = [self errorWithCode:errorState description:nil];
-            if (completion)
-                completion(fgError, nil, nil);
-        }
-        else
-        {
-            if ([self isTranslated:translatedMessage sameAsOriginal:text])
-            {
-                NSError *fgError = [self errorWithCode:FGTranslatorErrorUnableToTranslate description:@"unable to translate"];
-                if (completion)
-                    completion(fgError, nil, nil);
-            }
+            if (error)
+                [self handleError:error];
             else
-            {
-                completion(nil, translatedMessage, detectedSource);
-            }
-        }
-    }];
+                [self handleSuccessWithOriginal:text translatedMessage:translatedMessage detectedSource:detectedSource];
+            
+            self.translatorState = FGTranslatorStateCompleted;
+        }];
+    }
+    else if (self.azureClientId && self.azureClientSecret)
+    {
+        self.operation = [FGTranslateRequest bingTranslateMessage:text
+                                                       withSource:source
+                                                           target:target
+                                                         clientId:self.azureClientId
+                                                     clientSecret:self.azureClientSecret
+                                                       completion:^(NSString *translatedMessage, NSString *detectedSource, NSError *error)
+        {
+            if (error)
+                [self handleError:error];
+            else
+                [self handleSuccessWithOriginal:text translatedMessage:translatedMessage detectedSource:detectedSource];
+            
+            self.translatorState = FGTranslatorStateCompleted;
+        }];
+    }
+    else
+    {
+        NSError *error = [self errorWithCode:FGTranslatorErrorMissingCredentials
+                                 description:@"missing Google or Bing credentials"];
+        completion(error, nil, nil);
+        
+        self.translatorState = FGTranslatorStateCompleted;
+    }
+}
+
+- (void)handleError:(NSError *)error
+{
+    FGTranslatorError errorState = error.code == FGTranslationErrorBadRequest ? FGTranslatorErrorUnableToTranslate : FGTranslatorErrorNetworkError;
+    
+    NSError *fgError = [self errorWithCode:errorState description:nil];
+    if (self.completionHandler)
+        self.completionHandler(fgError, nil, nil);
+}
+
+- (void)handleSuccessWithOriginal:(NSString *)original
+                translatedMessage:(NSString *)translatedMessage
+                   detectedSource:(NSString *)detectedSource
+{
+    if ([self isTranslated:translatedMessage sameAsOriginal:original])
+    {
+        NSError *fgError = [self errorWithCode:FGTranslatorErrorUnableToTranslate description:@"unable to translate"];
+        if (self.completionHandler)
+            self.completionHandler(fgError, nil, nil);
+    }
+    else
+    {
+        self.completionHandler(nil, translatedMessage, detectedSource);
+    }
 }
 
 - (void)cancelTranslation
 {
     self.completionHandler = nil;
     [self.operation cancel];
-    
-//    _retained_self = nil;
 }
 
 
@@ -226,7 +266,7 @@ enum FGTranslatorState
     return [t caseInsensitiveCompare:o] == NSOrderedSame;
 }
 
-// massage to make Google Translate happy
+// massage languge code to make Google Translate happy
 - (NSString *)filteredLanguageCodeFromCode:(NSString *)code
 {
     if (!code || code.length <= 3)

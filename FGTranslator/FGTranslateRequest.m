@@ -9,6 +9,7 @@
 #import "FGTranslateRequest.h"
 #import "FGAzureToken.h"
 #import "NSString+FGTranslator.h"
+#import "XMLDictionary.h"
 
 
 @implementation FGTranslateRequest
@@ -81,8 +82,6 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     FGAzureToken *token = [FGTranslateRequest azureToken];
     if ([token isValid])
     {
-        // TODO: remove
-        NSLog(@"azure token still valid");
         return [FGTranslateRequest doBingTranslateMessage:message
                                                withSource:source
                                                    target:target
@@ -91,9 +90,6 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     }
     else
     {
-        // TODO: remove
-        NSLog(@"azure token expired, will retrieve");
-        
         __block AFHTTPRequestOperation *operation;
         operation = [FGTranslateRequest getBingAuthTokenWithId:clientId secret:clientSecret completion:^(FGAzureToken *token, NSError *error) {
             if (!error)
@@ -103,8 +99,6 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
             }
             else
             {
-                // TODO: remove
-                NSLog(@"could not generate Azure token:%@", error);
                 NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorNoToken userInfo:error.userInfo];
                 completion(nil, nil, fgError);
             }
@@ -145,35 +139,18 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
     {
-        NSLog(@"BING XML:%@", responseObject);
+        XMLDictionaryParser *parser = [XMLDictionaryParser sharedInstance];
+        NSDictionary *dict = [parser dictionaryWithParser:responseObject];
+        NSLog(@"BING DICT:%@", dict);
+        NSLog(@"BING XML:%@", [dict innerText]);
+        completion([dict innerText], nil, nil);
     }
     failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
         NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorOther userInfo:error.userInfo];
         completion(nil, nil, fgError);
     }];
-//    
-//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        
-//        if (FGIsDebugEnabled)
-//        {
-//            NSString *responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-//            NSLog(@"Bing translate response:%@", responseString);
-//        }
-//        
-//        XMLDictionaryParser *parser = [XMLDictionaryParser sharedInstance];
-//        NSDictionary *dict = [parser dictionaryWithData:responseObject];
-//        
-//        completion([dict innerText], nil, nil);
-//        
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        
-//        FGDebug(@"unable to translate with bing:%@", error);
-//        NSError *fgError = [NSError errorWithDomain:FG_TRANSLATION_ERROR_DOMAIN code:FGTranslationErrorOther userInfo:nil];
-//        completion(nil, nil, fgError);
-//        
-//    }];
+    
     [operation start];
     return operation;
 }
@@ -204,8 +181,6 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
         NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:expiry];
         
         FGAzureToken *azureToken = [[FGAzureToken alloc] initWithToken:token expiry:expiration];
-        // TODO: remove this
-        NSLog(@"Azure token: %@", azureToken);
         
         completion(azureToken, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -215,6 +190,14 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     [operation start];
     
     return operation;
+}
+
++ (void)flushCredentials
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:FG_TRANSLATOR_AZURE_TOKEN];
+    [defaults removeObjectForKey:FG_TRANSLATOR_AZURE_TOKEN_EXPIRY];
+    [defaults synchronize];
 }
 
 + (void)setAzureToken:(FGAzureToken *)azureToken

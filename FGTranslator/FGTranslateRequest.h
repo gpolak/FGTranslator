@@ -36,4 +36,6 @@ enum
                                     clientSecret:(NSString *)clientSecret
                                       completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
 
++ (void)flushCredentials;
+
 @end
