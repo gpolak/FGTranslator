@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "FGTranslator"
-  s.version      = "0.8"
+  s.version      = "0.9"
   s.summary      = "iOS library for Google and Bing translation services"
   s.homepage     = "https://github.com/gpolak/FGTranslator"
   s.license      = { :type => "MIT", :file => "LICENSE" }
