@@ -25,7 +25,7 @@ FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_goo
 
 1. Add a pod entry for FGTranslator to your Podfile `pod 'FGTranslator', '~> 0.9'`
 2. Install the pod(s) by running `pod install`.
-3. Include FGTranslator wherever you need it with `#import "FGTranslator.h"`.
+3. Include FGTranslator wherever you need it with `#import <FGTranslator.h>`.
 
 ### Source files
 
