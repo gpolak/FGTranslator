@@ -29,7 +29,7 @@ FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_goo
 
 ### Source files
 
-Alternatively you can directly adding the *FGTranslator* folder to your project. FGTranslator uses [AFNetworking](https://github.com/AFNetworking/AFNetworking) - your project needs this for it to work if you include it this way.
+Alternatively you can directly add the *FGTranslator* folder to your project. FGTranslator uses [AFNetworking](https://github.com/AFNetworking/AFNetworking) - your project needs this for it to work if you include it this way.
 
 
 ## Register with Google or Bing
@@ -74,6 +74,8 @@ FGTranslator *translator =
 	}
 }];
 ```
+
+**Note:** Translations are one-shot operations. You need to instantiate a new `FGTranslator` object for each translation.
 
 ## Fancy Stuff
 
