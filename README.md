@@ -21,11 +21,16 @@ FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_goo
 
 ### CocoaPods
 
-[CocoaPods](http://cocoapods.org) is the recommended way to add FGTranslator to your project.
+### Installation with CocoaPods
 
-1. Add a pod entry for FGTranslator to your Podfile `pod 'FGTranslator', '~> 0.9'`
-2. Install the pod(s) by running `pod install`.
-3. Include FGTranslator wherever you need it with `#import <FGTranslator.h>`.
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like FGTranslator in your projects. See the ["Getting Started" guide for more information](https://github.com/gpolak/FGTranslator/wiki/Installing-FGTranslator-via-CocoaPods).
+
+#### Podfile
+
+```ruby
+platform :ios, '6.0'
+pod "FGTranslator", "~> 0.9"
+```
 
 ### Source files
 
@@ -75,7 +80,7 @@ FGTranslator *translator =
 }];
 ```
 
-**Note:** Translations are one-shot operations. You need to instantiate a new `FGTranslator` object for each translation.
+> Note that translations are one-shot operations. You need to instantiate a new `FGTranslator` object for each translation.
 
 ## Fancy Stuff
 
@@ -129,6 +134,7 @@ FGTranslator uses the following projects:
 
 - [XMLDictionary](https://github.com/nicklockwood/XMLDictionary)
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking)
+	- I also cribbed some parts of the README. Great job explaining CocoaPods usage guys!
 
 
 ## FG?
