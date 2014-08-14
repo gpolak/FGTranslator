@@ -3,15 +3,43 @@
 A simple iOS library for Google & Bing translation APIs.
 
 
+## Synopsis
+
+```
+FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_google_key"];
+
+[translator translateText:@"Bonjour!" completion:^(NSError *error, NSString *translated, NSString *sourceLanguage)
+{
+	if (error)
+    	NSLog(@"translation failed with error: %@", error);
+	else
+		NSLog(@"translated: %@", translated);
+}];
+```
+
+## Adding FGTranslator to your project
+
+### Cocoapods
+
+[CocoaPods](http://cocoapods.org) is the recommended way to add FGTranslator to your project.
+
+1. Add a pod entry for FGTranslator to your Podfile `pod 'FGTranslator', '~> 0.9'`
+2. Install the pod(s) by running `pod install`.
+3. Include FGTranslator wherever you need it with `#import "FGTranslator.h"`.
+
+### Source files
+
+Alternatively you can directly adding the *FGTranslator* folder to your project. FGTranslator uses [AFNetworking](https://github.com/AFNetworking/AFNetworking) - your project needs this for it to work if you include it this way.
+
+
 ## Register with Google or Bing
 
 To use this library you need a valid Google or Bing (Azure) developer account.
 
 Google and Bing Translate are both paid services, but Bing offers a free tier. Google's translation quality and language selection is generally better. Pick what works best for you.
 
-**Google:** https://developers.google.com/translate/v2/getting_started
-
-**Bing:** http://www.microsoft.com/web/post/using-the-free-bing-translation-apis
+- **Google:** https://developers.google.com/translate/v2/getting_started
+- **Bing:** http://www.microsoft.com/web/post/using-the-free-bing-translation-apis
 
 
 ## Usage
@@ -19,21 +47,88 @@ Google and Bing Translate are both paid services, but Bing offers a free tier. G
 ### Initialize with Google...
 
 ```
-FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_google_key"];
+FGTranslator *translator =
+	[[FGTranslator alloc] initWithGoogleAPIKey:@"your_google_key"];
 ```
 
 ### ...or Bing
 
 ```
-FGTranslator *translator = [[FGTranslator alloc] initWithBingAzureClientId:@"your_azure_client_id"
-                                                                    secret:@"your_azure_client_secret"];
+FGTranslator *translator =
+	[[FGTranslator alloc] initWithBingAzureClientId:@"your_azure_client_id"
+                                             secret:@"your_azure_client_secret"];
 ```
+
+### Translate
+```
+[translator translateText:@"Bonjour!" completion:^(NSError *error, NSString *translated, NSString *sourceLanguage)
+{
+	if (error)
+	{
+    	NSLog(@"translation failed with error: %@", error);
+	}
+	else
+	{
+    	NSString *fromLanguage = [[NSLocale currentLocale] displayNameForKey:NSLocaleIdentifier value:sourceLanguage];
+		NSLog(@"translated from %@: %@", fromLanguage, translated);
+	}
+}];
+```
+
+## Fancy Stuff
+
+### Specify Source or Target Language
+
+The basic translation function makes a guess at the source language and specifies the target language based on the user's phone settings.
+```
+- (void)translateText:(NSString *)text
+           completion:(NSError *error, NSString *translated, NSString *sourceLanguage)completion;
+```
+
+You can specify the source and/or the target languages if desired:
+```
+- (void)translateText:(NSString *)text
+           withSource:(NSString *)source
+               target:(NSString *)target
+           completion:(NSError *error, NSString *translated, NSString *sourceLanguage)completion;
+```
+
+### Disable Smart Guessing
+
+Usually you don't know the source language to translate from. Going by user's iPhone locale or keyboard language settings seems like the obvious answer, but it is unreliable: there's nothing stopping you from typing *Hola amigo!* with an English keyboard. This is common, especially with international users.
+
+For this reason FGTranslator will ignore the passed-in `source` parameter in the above function, if it determines a good guess can be made. Typically this means that the `text` parameter is complex and long enough for the engine to reliably determine the language. Short string snippets will typically respect the passed-in `source` parameter, if any.
+
+To force FGTranslator to always respect the `source` parameter, use the following property:
+
+	translator.preferSourceGuess = NO;
+	
+### Cancel Translation
+
+    - (void)cancelTranslation;
+    
+### Flush Cache
+
+Translations are cached to prevent unnecessary network calls (and Google/Bing API charges). You can flush the cache if needed:
+
+
+	+ (void)flushCache;
+	
+### Flush Credentials
+
+Bing Translate uses token-based authentication. The first call you make retrieves a token based on the passed-in client ID and secret and caches it for future use. The lifetime of the token is 15 minutes, after which it expires and a new one will be fetched. To force the token expiry, call the following function:
+
+	+ (void)flushCredentials;
+	
 
 ## Attributions
 
-* XMLDictionary
-* AFNetworking
+FGTranslator uses the following projects:
 
-## Notes
+- [XMLDictionary](https://github.com/nicklockwood/XMLDictionary)
+- [AFNetworking](https://github.com/AFNetworking/AFNetworking)
 
-- Bing cannot detect language
+
+## FG?
+
+FGTranslator comes from my [Fargate](http://fargate.net) app.
