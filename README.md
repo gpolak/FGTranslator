@@ -47,6 +47,15 @@ Google and Bing Translate are both paid services, but Bing offers a free tier. G
 - **Bing:** http://www.microsoft.com/web/post/using-the-free-bing-translation-apis
 
 
+## Running the Demo
+
+1. Go to the FGTranslatorDemo directory.
+2. Run `pod install` to install the [AFNetworking](https://github.com/AFNetworking/AFNetworking) depedency.
+3. Open the workspace (**not the project**!) and navigate to the `ViewController.m` file.
+	- Find the following line and add your Google API key: `static NSString *GOOGLE_API_KEY = nil;`
+	- Uncomment the relevant code below to use Bing Translate. It should be obvious.
+4. Run the app in the Simulator.
+
 ## Usage
 
 ### Initialize with Google...
