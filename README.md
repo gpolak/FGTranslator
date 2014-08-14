@@ -5,7 +5,7 @@ A simple iOS library for Google & Bing translation APIs.
 
 ## Synopsis
 
-```
+```objective-c
 FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_google_key"];
 
 [translator translateText:@"Bonjour!" completion:^(NSError *error, NSString *translated, NSString *sourceLanguage)
@@ -51,21 +51,21 @@ Google and Bing Translate are both paid services, but Bing offers a free tier. G
 
 ### Initialize with Google...
 
-```
+```objective-c
 FGTranslator *translator =
 	[[FGTranslator alloc] initWithGoogleAPIKey:@"your_google_key"];
 ```
 
 ### ...or Bing
 
-```
+```objective-c
 FGTranslator *translator =
 	[[FGTranslator alloc] initWithBingAzureClientId:@"your_azure_client_id"
                                              secret:@"your_azure_client_secret"];
 ```
 
 ### Translate
-```
+```objective-c
 [translator translateText:@"Bonjour!" completion:^(NSError *error, NSString *translated, NSString *sourceLanguage)
 {
 	if (error)
@@ -87,13 +87,13 @@ FGTranslator *translator =
 ### Specify Source or Target Language
 
 The basic translation function makes a guess at the source language and specifies the target language based on the user's phone settings.
-```
+```objective-c
 - (void)translateText:(NSString *)text
            completion:(NSError *error, NSString *translated, NSString *sourceLanguage)completion;
 ```
 
 You can specify the source and/or the target languages if desired:
-```
+```objective-c
 - (void)translateText:(NSString *)text
            withSource:(NSString *)source
                target:(NSString *)target
@@ -107,25 +107,27 @@ Usually you don't know the source language to translate from. Going by user's iP
 For this reason FGTranslator will ignore the passed-in `source` parameter in the above function, if it determines a good guess can be made. Typically this means that the `text` parameter is complex and long enough for the engine to reliably determine the language. Short string snippets will typically respect the passed-in `source` parameter, if any.
 
 To force FGTranslator to always respect the `source` parameter, use the following property:
-
-	translator.preferSourceGuess = NO;
+```objective-c
+translator.preferSourceGuess = NO;
+```
 	
 ### Cancel Translation
-
-    - (void)cancelTranslation;
-    
+```objective-c
+- (void)cancelTranslation;
+```
 ### Flush Cache
 
 Translations are cached to prevent unnecessary network calls (and Google/Bing API charges). You can flush the cache if needed:
-
-
-	+ (void)flushCache;
+```objective-c
++ (void)flushCache;
+```
 	
 ### Flush Credentials
 
 Bing Translate uses token-based authentication. The first call you make retrieves a token based on the passed-in client ID and secret and caches it for future use. The lifetime of the token is 15 minutes, after which it expires and a new one will be fetched. To force the token expiry, call the following function:
-
-	+ (void)flushCredentials;
+```objective-c
++ (void)flushCredentials;
+```
 	
 
 ## Attributions
