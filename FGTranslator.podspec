@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "6.0"
 
-  s.source       = { :git => "https://github.com/gpolak/FGTranslator.git", :tag => "0.8" }
+  s.source       = { :git => "https://github.com/gpolak/FGTranslator.git", :tag => "0.9" }
 
   s.source_files = 'FGTranslator', 'FGTranslator/XMLDictionary'
   s.requires_arc = true
