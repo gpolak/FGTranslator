@@ -21,11 +21,7 @@ FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_goo
 
 ### CocoaPods
 
-### Installation with CocoaPods
-
-[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like FGTranslator in your projects. See the ["Getting Started" guide for more information](https://github.com/gpolak/FGTranslator/wiki/Installing-FGTranslator-via-CocoaPods).
-
-#### Podfile
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like FGTranslator in your projects. See the ["Getting Started"](https://github.com/gpolak/FGTranslator/wiki/Installing-FGTranslator-via-CocoaPods) guide for more information.
 
 ```ruby
 platform :ios, '6.0'
