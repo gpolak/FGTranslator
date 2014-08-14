@@ -39,7 +39,7 @@
     FGTranslator *translator;
     
     // using Google Translate
-    static NSString *GOOGLE_API_KEY = @"your_key_here";
+    static NSString *GOOGLE_API_KEY = nil;
     translator = [[FGTranslator alloc] initWithGoogleAPIKey:GOOGLE_API_KEY];
     
     // using Bing Translate
