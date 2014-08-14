@@ -48,7 +48,7 @@
 //    translator = [[FGTranslator alloc] initWithBingAzureClientId:BING_CLIENT_ID secret:BING_CLIENT_SECRET];
     
     [translator translateText:self.textView.text
-                   completion:^(NSError *error, NSString *translated, NSString *source)
+                   completion:^(NSError *error, NSString *translated, NSString *sourceLanguage)
      {
          if (error)
          {
@@ -65,7 +65,7 @@
          }
          else
          {
-             NSString *fromLanguage = [[NSLocale currentLocale] displayNameForKey:NSLocaleIdentifier value:source];
+             NSString *fromLanguage = [[NSLocale currentLocale] displayNameForKey:NSLocaleIdentifier value:sourceLanguage];
              
              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:fromLanguage ? [NSString stringWithFormat:@"from %@", fromLanguage] : nil
                                                              message:translated

@@ -30,7 +30,7 @@ enum FGTranslatorError
 @property (nonatomic, readonly) NSString *azureClientId;
 @property (nonatomic, readonly) NSString *azureClientSecret;
 
-typedef void (^FGTranslatorCompletionHandler)(NSError *error, NSString *translated, NSString *source);
+typedef void (^FGTranslatorCompletionHandler)(NSError *error, NSString *translated, NSString *sourceLanguage);
 
 - (id)initWithGoogleAPIKey:(NSString *)key;
 - (id)initWithBingAzureClientId:(NSString *)clientId secret:(NSString *)secret;
