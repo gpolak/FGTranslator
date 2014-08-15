@@ -8,12 +8,13 @@ A simple iOS library for Google & Bing translation APIs.
 ```objective-c
 FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_google_key"];
 
-[translator translateText:@"Bonjour!" completion:^(NSError *error, NSString *translated, NSString *sourceLanguage)
+[translator translateText:@"Bonjour!" 
+               completion:^(NSError *error, NSString *translated, NSString *sourceLanguage)
 {
 	if (error)
     	NSLog(@"translation failed with error: %@", error);
 	else
-		NSLog(@"translated: %@", translated);
+		NSLog(@"translated from %@: %@", sourceLanguage, translated);
 }];
 ```
 
