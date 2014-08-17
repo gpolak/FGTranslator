@@ -26,7 +26,7 @@ FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_goo
 
 ```ruby
 platform :ios, '6.0'
-pod "FGTranslator", "~> 0.9"
+pod "FGTranslator"
 ```
 
 ### Source files
