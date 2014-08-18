@@ -23,12 +23,39 @@ enum
 
 @interface FGTranslateRequest : NSObject
 
+/**
+ Performs a translation with Google API.
+ 
+ @params
+ message: text to translate
+ source: source text ISO language code (pass nil to guess)
+ target: language to translate to (ISO language code)
+ key: Google API key
+ completion: completion handler
+ 
+ @returns
+ Token instance.
+ */
 + (AFHTTPRequestOperation *)googleTranslateMessage:(NSString *)message
                                         withSource:(NSString *)source
                                             target:(NSString *)target
                                                key:(NSString *)key
                                         completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
 
+/**
+ Performs a translation with Bing API.
+ 
+ @params
+ message: text to translate
+ source: source text ISO language code (pass nil to guess)
+ target: language to translate to (ISO language code)
+ clientId: Azure client ID
+ clientSecret: Azure client secret
+ completion: completion handler
+ 
+ @returns
+ Token instance.
+ */
 + (AFHTTPRequestOperation *)bingTranslateMessage:(NSString *)message
                                       withSource:(NSString *)source
                                           target:(NSString *)target

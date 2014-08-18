@@ -14,8 +14,23 @@
 @property (nonatomic, readonly) NSDate *expiry;
 
 
+/**
+ Initializes an Azure token.
+ 
+ @params
+ token: token
+ expire: token expiry
+ 
+ @returns
+ Token instance.
+ */
 - (id)initWithToken:(NSString *)token expiry:(NSDate *)expiry;
 
+/**
+ Determines token validity based on expiration date.
+ @returns
+ TRUE if token is valid, FALSE otherwise.
+ */
 - (BOOL)isValid;
 
 @end
