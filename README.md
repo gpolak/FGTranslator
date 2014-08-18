@@ -116,6 +116,7 @@ To force FGTranslator to always respect the `source` parameter, use the followin
 ```objective-c
 translator.preferSourceGuess = NO;
 ```
+> Note: unless you definitely know the source language, I recommend leaving smart guessing on **AND** passing the source parameter if available as a hint to the language detector.
 	
 ### Cancel Translation
 ```objective-c
