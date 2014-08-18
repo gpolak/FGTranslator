@@ -18,7 +18,7 @@ FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_goo
 }];
 ```
 
-## Adding FGTranslator to your project
+## Adding FGTranslator to Your Project
 
 ### CocoaPods
 
@@ -29,12 +29,12 @@ platform :ios, '6.0'
 pod "FGTranslator"
 ```
 
-### Source files
+### Source Files
 
 Alternatively you can directly add the *FGTranslator* folder to your project. FGTranslator uses [AFNetworking](https://github.com/AFNetworking/AFNetworking) - your project needs this for it to work if you include it this way.
 
 
-## Register with Google or Bing
+## Register With Google or Bing
 
 To use this library you need a valid Google or Bing (Azure) developer account.
 
@@ -151,6 +151,6 @@ FGTranslator uses the following projects:
 
 FGTranslator comes from my [Fargate](http://fargate.net) app.
 
-### Fish logo?
+### Fish Logo?
 
 [Fish logo.](http://en.wikipedia.org/wiki/Babel_fish_\(The_Hitchhiker%27s_Guide_to_the_Galaxy\)#Babel_fish)
