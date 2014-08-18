@@ -1,4 +1,4 @@
-# FGTranslator
+![FGTranslator](fgtranslator_logo.png)
 
 A simple iOS library for Google & Bing translation APIs.
 
@@ -145,6 +145,12 @@ FGTranslator uses the following projects:
 	- I also cribbed some parts of the README. Great job explaining CocoaPods usage guys!
 
 
-## FG?
+## Misc
+
+### FG?
 
 FGTranslator comes from my [Fargate](http://fargate.net) app.
+
+### Fish logo?
+
+[Fish logo.](http://en.wikipedia.org/wiki/Babel_fish_\(The_Hitchhiker%27s_Guide_to_the_Galaxy\)#Babel_fish)
