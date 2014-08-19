@@ -9,10 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking.h>
 
+/**
+ * Error domain for FGTranslator request errors.
+ */ 
 extern NSString *const FG_TRANSLATOR_ERROR_DOMAIN;
 
+/**
+ * FGTranslator request specific error
+ */
 typedef NSInteger FGTranslationError;
-
 enum
 {
     FGTranslationErrorNoToken = 0,
@@ -63,6 +68,11 @@ enum
                                     clientSecret:(NSString *)clientSecret
                                       completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
 
+/**
+ Flush Azure credentials.
+ 
+ This deletes the existing token, if any.
+ */
 + (void)flushCredentials;
 
 @end

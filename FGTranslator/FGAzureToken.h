@@ -10,7 +10,13 @@
 
 @interface FGAzureToken : NSObject
 
+/**
+ * The token itself.
+ */
 @property (nonatomic, readonly) NSString *token;
+/**
+ * Token expiry
+ */
 @property (nonatomic, readonly) NSDate *expiry;
 
 
