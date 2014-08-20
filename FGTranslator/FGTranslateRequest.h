@@ -36,6 +36,7 @@ enum
  source: source text ISO language code (pass nil to guess)
  target: language to translate to (ISO language code)
  key: Google API key
+ quotaUser: optional user quota
  completion: completion handler
  
  @returns
@@ -45,6 +46,7 @@ enum
                                         withSource:(NSString *)source
                                             target:(NSString *)target
                                                key:(NSString *)key
+                                         quotaUser:(NSString *)quotaUser
                                         completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
 
 /**

@@ -48,6 +48,14 @@ enum FGTranslatorError
  */
 @property (nonatomic, readonly) NSString *azureClientSecret;
 
+/**
+ * Optional quota throttle to use use with Google Translate.
+ * https://developers.google.com/analytics/devguides/reporting/realtime/v3/parameters
+ *
+ * This option has no effect on Bing Translate.
+ */
+@property (nonatomic) NSString *quotaUser;
+
 typedef void (^FGTranslatorCompletionHandler)(NSError *error, NSString *translated, NSString *sourceLanguage);
 
 /**

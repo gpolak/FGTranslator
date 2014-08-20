@@ -169,6 +169,7 @@ enum FGTranslatorState
                                                          withSource:source
                                                              target:target
                                                                 key:self.googleAPIKey
+                                                          quotaUser:self.quotaUser
                                                          completion:^(NSString *translatedMessage, NSString *detectedSource, NSError *error)
         {
             if (error)

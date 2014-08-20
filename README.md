@@ -117,6 +117,16 @@ To force FGTranslator to always respect the `source` parameter, use the followin
 translator.preferSourceGuess = NO;
 ```
 > Note: unless you definitely know the source language, I recommend leaving smart guessing on **AND** passing the source parameter if available as a hint to the language detector.
+
+
+### User Throttles
+
+For Google Translate, you can throttle usage on a per-user/device basic by setting a specific user identifier property to the `FGTranslator` instance. See the specific [Google documentation](https://developers.google.com/console/help/new/#cappingusage) for more information.
+
+```objective-c
+@property (nonatomic) NSString *quotaUser;
+```
+This option has no effect on Bing Translate.
 	
 ### Cancel Translation
 ```objective-c

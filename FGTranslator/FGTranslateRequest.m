@@ -22,7 +22,8 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
 + (AFHTTPRequestOperation *)googleTranslateMessage:(NSString *)message
                                       withSource:(NSString *)source
                                           target:(NSString *)target
-                                             key:(NSString *)key
+                                               key:(NSString *)key
+                                         quotaUser:(NSString *)quotaUser
                                       completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion
 {    
     NSURL *base = [NSURL URLWithString:@"https://www.googleapis.com/language/translate/v2"];
@@ -40,6 +41,10 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     
     // target language
     [queryString appendFormat:@"&target=%@", target];
+    
+    // quota
+    if (quotaUser.length > 0)
+        [queryString appendFormat:@"&quotaUser=%@", quotaUser];
     
     // message
     [queryString appendFormat:@"&q=%@", [NSString urlEncodedStringFromString:message]];
