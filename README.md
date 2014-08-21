@@ -47,7 +47,7 @@ Google and Bing Translate are both paid services, but Bing offers a free tier. G
 ## Running the Demo
 
 1. Go to the FGTranslatorDemo directory.
-2. Open the `.xcworkspace` (**not the `.xcodeproj`**!) file.
+2. Open the `.xcworkspace` (**not the `.xcodeproj`!**) file.
 2. Navigate to the `ViewController.m` file.
 	- Find the following line and add your Google API key: `static NSString *GOOGLE_API_KEY = nil;`
 	- Uncomment the relevant code below to use Bing Translate. It should be obvious.
@@ -116,17 +116,16 @@ To force FGTranslator to always respect the `source` parameter, use the followin
 ```objective-c
 translator.preferSourceGuess = NO;
 ```
-> Note: unless you definitely know the source language, I recommend leaving smart guessing on **AND** passing the source parameter if available as a hint to the language detector.
+> Note: Unless you definitely know the source language, I recommend leaving smart guessing on **AND** passing the source parameter if available as a hint to the language detector.
 
 
-### User Throttles
+### User Throttles *(Google Only)*
 
-For Google Translate, you can throttle usage on a per-user/device basic by setting a specific user identifier property to the `FGTranslator` instance. See the specific [Google documentation](https://developers.google.com/console/help/new/#cappingusage) for more information.
+For Google Translate, you can throttle usage on a per-user/device basis by setting a specific user identifier property in the `FGTranslator` instance. See the specific [Google documentation](https://developers.google.com/console/help/new/#cappingusage) for more information.
 
 ```objective-c
 @property (nonatomic) NSString *quotaUser;
 ```
-This option has no effect on Bing Translate.
 	
 ### Cancel Translation
 ```objective-c
@@ -138,8 +137,9 @@ Translations are cached to prevent unnecessary network calls (and Google/Bing AP
 ```objective-c
 + (void)flushCache;
 ```
+> Note: The translation cache is implemented as a simple NSCache and hence will be cleared periodically by the OS. 
 	
-### Flush Credentials
+### Flush Credentials *(Bing Only)*
 
 Bing Translate uses token-based authentication. The first call you make retrieves a token based on the passed-in client ID and secret and caches it for future use. The lifetime of the token is 15 minutes, after which it expires and a new one will be fetched. To force the token expiry, call the following function:
 ```objective-c
