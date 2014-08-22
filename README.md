@@ -110,7 +110,7 @@ If initialized with Google, the completion handler also returns a float between 
            ? @"unknown"
            : [NSString stringWithFormat:@"%.1f%%", confidence * 100];
            
-       NSLog("detected %@ with %@", language, confidenceMessage);
+       NSLog(@"detected %@ with %@ confidence", language, confidenceMessage);
    }
 }];
 ```
