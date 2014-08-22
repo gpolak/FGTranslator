@@ -95,7 +95,7 @@ Detects the language and returns its ISO language code as the `detectedSource` p
 
 If initialized with Google, the completion handler also returns a float between 0 and 1 indicating the confidence of the match, with 1 being the highest confidence. This is not supported with Bing translate and will always returns `FGTranslatorUnknownConfidence`.
 
-```
+```objective-c
 [translator detectLanguage:@"Bonjour"
                 completion:^(NSError *error, NSString *detectedSource, float confidence)
 {
