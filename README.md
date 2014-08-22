@@ -48,10 +48,9 @@ Google and Bing Translate are both paid services, but Bing offers a free tier. G
 
 1. Go to the FGTranslatorDemo directory.
 2. Open the `.xcworkspace` (**not the `.xcodeproj`!**) file.
-2. Navigate to the `ViewController.m` file.
-	- Find the following line and add your Google API key: `static NSString *GOOGLE_API_KEY = nil;`
-	- Uncomment the relevant code below to use Bing Translate. It should be obvious.
-4. Run the app in the Simulator.
+3. Navigate to the `ViewController.m` file in the `FGTranslatorDemo` folder.
+4. Look for the `GOOGLE_API_KEY` (or the Bing equivalent below) constant at the top of the file and set it to your key.
+5. Run the app in the Simulator.
 
 ## Usage
 
