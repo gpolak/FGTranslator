@@ -105,6 +105,12 @@ typedef void (^FGTranslatorCompletionHandler)(NSError *error, NSString *translat
                target:(NSString *)target
            completion:(FGTranslatorCompletionHandler)completion;
 
+/**
+ * Detect text language.
+ 
+ * @param text Text to analyze.
+ * @param completion Completion handler.
+ */
 - (void)detectLanguage:(NSString *)text
             completion:(void (^)(NSError *error, NSString *detectedSource, float confidence))completion;
 
