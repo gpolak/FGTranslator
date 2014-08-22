@@ -26,6 +26,8 @@ enum FGTranslatorError
     FGTranslatorErrorMissingCredentials = 5
 };
 
+extern float const FGTranslatorUnknownConfidence;
+
 @interface FGTranslator : NSObject
 {
 }
@@ -103,10 +105,13 @@ typedef void (^FGTranslatorCompletionHandler)(NSError *error, NSString *translat
                target:(NSString *)target
            completion:(FGTranslatorCompletionHandler)completion;
 
+- (void)detectLanguage:(NSString *)text
+            completion:(void (^)(NSError *error, NSString *detectedSource, float confidence))completion;
+
 /**
  * Cancels the current translation.
  */
-- (void)cancelTranslation;
+- (void)cancel;
 
 /**
  * Flushes the translation cache.

@@ -129,7 +129,7 @@ For Google Translate, you can throttle usage on a per-user/device basis by setti
 	
 ### Cancel Translation
 ```objective-c
-- (void)cancelTranslation;
+- (void)cancel;
 ```
 ### Flush Cache
 

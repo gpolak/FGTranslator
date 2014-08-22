@@ -70,6 +70,16 @@ enum
                                     clientSecret:(NSString *)clientSecret
                                       completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
 
++ (AFHTTPRequestOperation *)googleDetectLanguage:(NSString *)text
+                                             key:(NSString *)key
+                                       quotaUser:(NSString *)quotaUser
+                                      completion:(void (^)(NSString *detectedSource, float confidence, NSError *error))completion;
+
++ (AFHTTPRequestOperation *)bingDetectLanguage:(NSString *)message
+                                      clientId:(NSString *)clientId
+                                  clientSecret:(NSString *)clientSecret
+                                    completion:(void (^)(NSString *detectedLanguage, float confidence, NSError *error))completion;
+
 /**
  Flush Azure credentials.
  

@@ -39,7 +39,7 @@
     FGTranslator *translator;
     
     // using Google Translate
-    static NSString *GOOGLE_API_KEY = nil;
+    static NSString *GOOGLE_API_KEY = @"AIzaSyChjS0m1xD-8ZLOiVeQT0Ul01mDaEVo3iQ";
     translator = [[FGTranslator alloc] initWithGoogleAPIKey:GOOGLE_API_KEY];
     
     // using Bing Translate
@@ -52,13 +52,7 @@
      {
          if (error)
          {
-             NSLog(@"FGTranslator failed with error: %@", error);
-             
-             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                             message:error.localizedDescription
-                                                            delegate:nil
-                                                   cancelButtonTitle:@"OK" otherButtonTitles:nil];
-             [alert show];
+             [self showErrorWithError:error];
              
              [self.spinner stopAnimating];
              sender.hidden = NO;
@@ -78,6 +72,63 @@
              sender.hidden = NO;
          }
      }];
+}
+- (IBAction)detect:(UIButton *)sender
+{
+    [self.textView resignFirstResponder];
+    
+    sender.hidden = YES;
+    [self.spinner startAnimating];
+    
+    FGTranslator *translator;
+    
+    // using Google Translate
+    static NSString *GOOGLE_API_KEY = @"AIzaSyChjS0m1xD-8ZLOiVeQT0Ul01mDaEVo3iQ";
+    translator = [[FGTranslator alloc] initWithGoogleAPIKey:GOOGLE_API_KEY];
+    
+    // using Bing Translate
+//    static NSString *BING_CLIENT_ID = @"fgtranslator_test";
+//    static NSString *BING_CLIENT_SECRET = @"rh8xDMZFTktKAfAZj79cuuHaWR3+zCA49JC3YPf6RVY=";
+//    translator = [[FGTranslator alloc] initWithBingAzureClientId:BING_CLIENT_ID secret:BING_CLIENT_SECRET];
+    
+    [translator detectLanguage:self.textView.text completion:^(NSError *error, NSString *detectedSource, float confidence) {
+        if (error)
+        {
+            [self showErrorWithError:error];
+            
+            [self.spinner stopAnimating];
+            sender.hidden = NO;
+        }
+        else
+        {
+            NSString *fromLanguage = [[NSLocale currentLocale] displayNameForKey:NSLocaleIdentifier value:detectedSource];
+            
+            NSString *confidenceMessage = confidence == FGTranslatorUnknownConfidence
+                ? @"unknown confidence"
+                : [NSString stringWithFormat:@"%.1f%% sure", confidence * 100];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:fromLanguage
+                                                            message:confidenceMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            
+            [self.spinner stopAnimating];
+            sender.hidden = NO;
+        }
+    }];
+}
+
+- (void)showErrorWithError:(NSError *)error
+{
+    NSLog(@"FGTranslator failed with error: %@", error);
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                    message:error.localizedDescription
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
 }
 
 @end
