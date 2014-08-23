@@ -11,9 +11,9 @@
 #import "FGTranslator.h"
 #import "SVProgressHUD.h"
 
-static NSString *const GOOGLE_API_KEY = @"AIzaSyChjS0m1xD-8ZLOiVeQT0Ul01mDaEVo3iQ";
-static NSString *const BING_CLIENT_ID = @"fgtranslator_test";
-static NSString *const BING_CLIENT_SECRET = @"rh8xDMZFTktKAfAZj79cuuHaWR3+zCA49JC3YPf6RVY=";
+static NSString *const GOOGLE_API_KEY = nil;
+static NSString *const BING_CLIENT_ID = nil;
+static NSString *const BING_CLIENT_SECRET = nil;
 
 @interface ViewController ()
 
