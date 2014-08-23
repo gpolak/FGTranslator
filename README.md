@@ -3,7 +3,7 @@
 A simple iOS library for Google & Bing translation APIs.
 
 
-## Synopsis
+## Quick Start
 
 ```objective-c
 FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_google_key"];
@@ -31,7 +31,7 @@ pod "FGTranslator"
 
 ### Source Files
 
-Alternatively you can directly add the *FGTranslator* folder to your project. FGTranslator uses [AFNetworking](https://github.com/AFNetworking/AFNetworking) - your project needs this for it to work if you include it this way.
+Alternatively you can directly add the *FGTranslator* folder to your project. FGTranslator uses [AFNetworking](https://github.com/AFNetworking/AFNetworking) - your project needs this for it to work if you include it this way. CocoaPods install manages this dependency for you.
 
 
 ## Register With Google or Bing
@@ -75,7 +75,7 @@ FGTranslator *translator =
 {
 	if (error)
 	{
-    	NSLog(@"translation failed with error: %@", error);
+    	NSLog(@"failed with error: %@", error);
 	}
 	else
 	{
@@ -100,7 +100,7 @@ If initialized with Google, the completion handler also returns a float between 
 {
    if (error)
    {
-       NSLog(@"translation failed with error: %@", error);
+       NSLog(@"failed with error: %@", error);
    }
    else
    {
@@ -114,11 +114,25 @@ If initialized with Google, the completion handler also returns a float between 
 }];
 ```
 
+### Get a List of Supported Languages
+
+Google and Bing Translate support different languages. You can get a list of supported ISO language codes with the following function:
+
+```objective-c
+[translator supportedLanguages:^(NSError *error, NSArray *languageCodes)
+{
+   if (error)
+       NSLog(@"failed with error: %@", error);
+   else
+       NSLog(@"supported languages:%@", languageCodes);
+}];
+```
+
 ## Fancy Stuff
 
 ### Specify Source or Target Language
 
-The basic translation function makes a guess at the source language and specifies the target language based on the user's phone settings.
+The basic translation function makes a guess at the source language and specifies the target language based on the user's phone settings:
 ```objective-c
 - (void)translateText:(NSString *)text
            completion:(NSError *error, NSString *translated, NSString *sourceLanguage)completion;
@@ -153,7 +167,7 @@ For Google Translate, you can throttle usage on a per-user/device basis by setti
 @property (nonatomic) NSString *quotaUser;
 ```
 	
-### Cancel Translation
+### Cancel a Translation In Progress
 ```objective-c
 - (void)cancel;
 ```

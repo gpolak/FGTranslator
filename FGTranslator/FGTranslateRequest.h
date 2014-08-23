@@ -9,14 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking.h>
 
-/**
- * Error domain for FGTranslator request errors.
- */ 
 extern NSString *const FG_TRANSLATOR_ERROR_DOMAIN;
 
-/**
- * FGTranslator request specific error
- */
 typedef NSInteger FGTranslationError;
 enum
 {
@@ -28,20 +22,8 @@ enum
 
 @interface FGTranslateRequest : NSObject
 
-/**
- Performs a translation with Google API.
- 
- @params
- message: text to translate
- source: source text ISO language code (pass nil to guess)
- target: language to translate to (ISO language code)
- key: Google API key
- quotaUser: optional user quota
- completion: completion handler
- 
- @returns
- Token instance.
- */
+#pragma mark - Google
+
 + (AFHTTPRequestOperation *)googleTranslateMessage:(NSString *)message
                                         withSource:(NSString *)source
                                             target:(NSString *)target
@@ -49,20 +31,18 @@ enum
                                          quotaUser:(NSString *)quotaUser
                                         completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
 
-/**
- Performs a translation with Bing API.
- 
- @params
- message: text to translate
- source: source text ISO language code (pass nil to guess)
- target: language to translate to (ISO language code)
- clientId: Azure client ID
- clientSecret: Azure client secret
- completion: completion handler
- 
- @returns
- Token instance.
- */
++ (AFHTTPRequestOperation *)googleDetectLanguage:(NSString *)text
+                                             key:(NSString *)key
+                                       quotaUser:(NSString *)quotaUser
+                                      completion:(void (^)(NSString *detectedSource, float confidence, NSError *error))completion;
+
++ (AFHTTPRequestOperation *)googleSupportedLanguagesWithKey:(NSString *)key
+                                                  quotaUser:(NSString *)quotaUser
+                                                 completion:(void (^)(NSArray *languageCodes, NSError *error))completion;
+
+
+#pragma mark - Bing
+
 + (AFHTTPRequestOperation *)bingTranslateMessage:(NSString *)message
                                       withSource:(NSString *)source
                                           target:(NSString *)target
@@ -70,21 +50,18 @@ enum
                                     clientSecret:(NSString *)clientSecret
                                       completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion;
 
-+ (AFHTTPRequestOperation *)googleDetectLanguage:(NSString *)text
-                                             key:(NSString *)key
-                                       quotaUser:(NSString *)quotaUser
-                                      completion:(void (^)(NSString *detectedSource, float confidence, NSError *error))completion;
 
 + (AFHTTPRequestOperation *)bingDetectLanguage:(NSString *)message
                                       clientId:(NSString *)clientId
                                   clientSecret:(NSString *)clientSecret
                                     completion:(void (^)(NSString *detectedLanguage, float confidence, NSError *error))completion;
 
-/**
- Flush Azure credentials.
- 
- This deletes the existing token, if any.
- */
++ (AFHTTPRequestOperation *)bingSupportedLanguagesWithClienId:(NSString *)clientId
+                                                 clientSecret:(NSString *)clientSecret
+                                                   completion:(void (^)(NSArray *languageCodes, NSError *error))completion;
+
+#pragma mark - Misc
+
 + (void)flushCredentials;
 
 @end

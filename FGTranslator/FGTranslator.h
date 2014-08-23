@@ -115,6 +115,12 @@ typedef void (^FGTranslatorCompletionHandler)(NSError *error, NSString *translat
             completion:(void (^)(NSError *error, NSString *detectedSource, float confidence))completion;
 
 /**
+ * Return a list of languages supported by either the Google or Bing service.
+ * @param completion completion handler
+ */
+- (void)supportedLanguages:(void (^)(NSError *error, NSArray *languageCodes))completion;
+
+/**
  * Cancels the current translation.
  */
 - (void)cancel;

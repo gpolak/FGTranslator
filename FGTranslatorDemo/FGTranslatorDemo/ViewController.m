@@ -113,6 +113,59 @@ static NSString *const BING_CLIENT_SECRET = @"rh8xDMZFTktKAfAZj79cuuHaWR3+zCA49J
     }];
 }
 
+- (IBAction)supportedLanguages:(id)sender
+{
+    [SVProgressHUD show];
+    
+    [self.textView resignFirstResponder];
+    
+    FGTranslator *translator;
+    
+    // using Google Translate
+    translator = [[FGTranslator alloc] initWithGoogleAPIKey:GOOGLE_API_KEY];
+    
+    // using Bing Translate
+    // translator = [[FGTranslator alloc] initWithBingAzureClientId:BING_CLIENT_ID secret:BING_CLIENT_SECRET];
+    
+    [translator supportedLanguages:^(NSError *error, NSArray *languageCodes)
+    {
+        if (error)
+        {
+            [self showErrorWithError:error];
+            
+            [SVProgressHUD dismiss];
+        }
+        else
+        {
+            NSMutableString *languageMessage = [NSMutableString new];
+            NSLocale *locale = [NSLocale currentLocale];
+            for (NSString *code in languageCodes)
+                [languageMessage appendFormat:@"%@\n", [locale displayNameForKey:NSLocaleIdentifier value:code]];
+           
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%i Supported Languages", languageCodes.count]
+                                                            message:languageMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            
+            [SVProgressHUD dismiss];
+        }
+    }];
+    
+    [translator supportedLanguages:^(NSError *error, NSArray *languageCodes)
+    {
+        if (error)
+        {
+            NSLog(@"failed with error: %@", error);
+        }
+        else
+        {
+            NSLog(@"supported languages:%@", languageCodes);
+        }
+    }];
+}
+
 - (void)showErrorWithError:(NSError *)error
 {
     NSLog(@"FGTranslator failed with error: %@", error);

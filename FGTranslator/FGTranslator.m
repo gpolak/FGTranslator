@@ -285,27 +285,96 @@ float const FGTranslatorUnknownConfidence = -1;
             
             self.translatorState = FGTranslatorStateCompleted;
         }];
-        
-//        self.operation = [FGTranslateRequest bingTranslateMessage:text
-//                                                       withSource:source
-//                                                           target:target
-//                                                         clientId:self.azureClientId
-//                                                     clientSecret:self.azureClientSecret
-//                                                       completion:^(NSString *translatedMessage, NSString *detectedSource, NSError *error)
-//                          {
-//                              if (error)
-//                                  [self handleError:error];
-//                              else
-//                                  [self handleSuccessWithOriginal:text translatedMessage:translatedMessage detectedSource:detectedSource];
-//                              
-//                              self.translatorState = FGTranslatorStateCompleted;
-//                          }];
     }
     else
     {
         NSError *error = [self errorWithCode:FGTranslatorErrorMissingCredentials
                                  description:@"missing Google or Bing credentials"];
         completion(error, nil, 0);
+        
+        self.translatorState = FGTranslatorStateCompleted;
+    }
+}
+
+- (void)supportedLanguages:(void (^)(NSError *error, NSArray *languageCodes))completion
+{
+    if (!completion)
+        return;
+    
+    if (self.googleAPIKey.length == 0 && (self.azureClientId.length == 0 || self.azureClientSecret.length == 0))
+    {
+        NSError *error = [self errorWithCode:FGTranslatorErrorMissingCredentials
+                                 description:@"missing Google or Bing credentials"];
+        completion(error, nil);
+        return;
+    }
+    
+    if (self.translatorState == FGTranslatorStateInProgress)
+    {
+        NSError *error = [self errorWithCode:FGTranslatorErrorTranslationInProgress description:@"detection already in progress"];
+        completion(error, nil);
+        return;
+    }
+    else if (self.translatorState == FGTranslatorStateCompleted)
+    {
+        NSError *error = [self errorWithCode:FGTranslatorErrorAlreadyTranslated description:@"detection already completed"];
+        completion(error, nil);
+        return;
+    }
+    else
+    {
+        self.translatorState = FGTranslatorStateInProgress;
+    }
+    
+    if (self.googleAPIKey)
+    {
+        self.operation = [FGTranslateRequest googleSupportedLanguagesWithKey:self.googleAPIKey
+                                                                   quotaUser:self.quotaUser
+                                                                  completion:^(NSArray *languageCodes, NSError *error)
+        {
+            if (error)
+            {
+                FGTranslatorError errorState = error.code == FGTranslationErrorBadRequest ? FGTranslatorErrorUnableToTranslate : FGTranslatorErrorNetworkError;
+                
+                NSError *fgError = [self errorWithCode:errorState description:nil];
+                if (completion)
+                    completion(fgError, nil);
+            }
+            else
+            {
+                completion(nil, languageCodes);
+            }
+            
+            self.translatorState = FGTranslatorStateCompleted;
+        }];
+    }
+    else if (self.azureClientId && self.azureClientSecret)
+    {
+        self.operation = [FGTranslateRequest bingSupportedLanguagesWithClienId:self.azureClientId
+                                                                  clientSecret:self.azureClientSecret
+                                                                    completion:^(NSArray *languageCodes, NSError *error)
+        {
+            if (error)
+            {
+                FGTranslatorError errorState = error.code == FGTranslationErrorBadRequest ? FGTranslatorErrorUnableToTranslate : FGTranslatorErrorNetworkError;
+                  
+                NSError *fgError = [self errorWithCode:errorState description:nil];
+                if (completion)
+                    completion(fgError, nil);
+            }
+            else
+            {
+                completion(nil, languageCodes);
+            }
+              
+            self.translatorState = FGTranslatorStateCompleted;
+        }];
+    }
+    else
+    {
+        NSError *error = [self errorWithCode:FGTranslatorErrorMissingCredentials
+                                 description:@"missing Google or Bing credentials"];
+        completion(error, nil);
         
         self.translatorState = FGTranslatorStateCompleted;
     }

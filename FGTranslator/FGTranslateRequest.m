@@ -127,6 +127,55 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     return operation;
 }
 
++ (AFHTTPRequestOperation *)googleSupportedLanguagesWithKey:(NSString *)key
+                                                  quotaUser:(NSString *)quotaUser
+                                                 completion:(void (^)(NSArray *languageCodes, NSError *error))completion
+{
+    NSURL *base = [NSURL URLWithString:@"https://www.googleapis.com/language/translate/v2/languages"];
+    
+    NSMutableString *queryString = [NSMutableString string];
+    // API key
+    [queryString appendFormat:@"?key=%@", key];
+    // output style
+    [queryString appendString:@"&format=text"];
+    [queryString appendString:@"&prettyprint=false"];
+    
+    // quota
+    if (quotaUser.length > 0)
+        [queryString appendFormat:@"&quotaUser=%@", quotaUser];
+    
+    NSURL *requestURL = [NSURL URLWithString:queryString relativeToURL:base];
+    NSURLRequest *request = [NSURLRequest requestWithURL:requestURL];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    operation.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
+        NSMutableArray *languageCodes = [NSMutableArray new];
+        
+        NSArray *languages = [[responseObject objectForKey:@"data"] objectForKey:@"languages"];
+        for (NSDictionary *element in languages)
+        {
+            NSString *code = [element objectForKey:@"language"];
+            if (code.length > 0)
+                [languageCodes addObject:code];
+        }
+         
+        completion(languageCodes, nil);
+         
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     {
+         NSInteger code = error.code == 400 ? FGTranslationErrorBadRequest : FGTranslationErrorOther;
+         NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:code userInfo:nil];
+         
+         completion(nil, fgError);
+     }];
+    [operation start];
+    
+    return operation;
+}
+
 
 #pragma mark - Bing
 
@@ -193,6 +242,35 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
             {
                 NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorNoToken userInfo:error.userInfo];
                 completion(nil, 0, fgError);
+            }
+        }];
+        
+        return operation;
+    }
+}
+
++ (AFHTTPRequestOperation *)bingSupportedLanguagesWithClienId:(NSString *)clientId
+                                                 clientSecret:(NSString *)clientSecret
+                                                   completion:(void (^)(NSArray *languageCodes, NSError *error))completion
+{
+    FGAzureToken *token = [FGTranslateRequest azureToken];
+    if ([token isValid])
+    {
+        return [FGTranslateRequest doBingSupportedLanguagesWithToken:token completion:completion];
+    }
+    else
+    {
+        __block AFHTTPRequestOperation *operation;
+        operation = [FGTranslateRequest getBingAuthTokenWithId:clientId secret:clientSecret completion:^(FGAzureToken *token, NSError *error) {
+            if (!error)
+            {
+                [FGTranslateRequest setAzureToken:token];
+                operation = [FGTranslateRequest doBingSupportedLanguagesWithToken:token completion:completion];
+            }
+            else
+            {
+                NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorNoToken userInfo:error.userInfo];
+                completion(nil, fgError);
             }
         }];
         
@@ -274,12 +352,45 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
          NSLog(@"BING DICT:%@", dict);
          NSLog(@"BING XML:%@", [dict innerText]);
          completion([dict innerText], FGTranslatorUnknownConfidence, nil);
-     }
+    }
                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)
-     {
+    {
          NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorOther userInfo:error.userInfo];
          completion(nil, FGTranslatorUnknownConfidence, fgError);
-     }];
+    }];
+    
+    [operation start];
+    return operation;
+}
+
++ (AFHTTPRequestOperation *)doBingSupportedLanguagesWithToken:(FGAzureToken *)token
+                                                   completion:(void (^)(NSArray *languageCodes, NSError *error))completion
+{
+    NSURL *base = [NSURL URLWithString:@"http://api.microsofttranslator.com/V2/Http.svc/GetLanguagesForTranslate"];
+    
+    NSMutableString *queryString = [NSMutableString string];
+    
+    NSURL *requestURL = [NSURL URLWithString:queryString relativeToURL:base];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestURL];
+    
+    NSString *authString = [NSString stringWithFormat:@"bearer %@", token.token];
+    [request setValue:authString forHTTPHeaderField:@"Authorization"];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    operation.responseSerializer = [AFXMLParserResponseSerializer serializer];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
+        XMLDictionaryParser *parser = [XMLDictionaryParser sharedInstance];
+        NSDictionary *dict = [parser dictionaryWithParser:responseObject];
+        NSArray *codes = [dict objectForKey:@"string"];
+        completion(codes, nil);
+    }
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
+         NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorOther userInfo:error.userInfo];
+         completion(nil, fgError);
+    }];
     
     [operation start];
     return operation;
