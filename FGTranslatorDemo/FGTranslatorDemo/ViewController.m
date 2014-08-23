@@ -152,18 +152,6 @@ static NSString *const BING_CLIENT_SECRET = @"rh8xDMZFTktKAfAZj79cuuHaWR3+zCA49J
             [SVProgressHUD dismiss];
         }
     }];
-    
-    [translator supportedLanguages:^(NSError *error, NSArray *languageCodes)
-    {
-        if (error)
-        {
-            NSLog(@"failed with error: %@", error);
-        }
-        else
-        {
-            NSLog(@"supported languages:%@", languageCodes);
-        }
-    }];
 }
 
 - (void)showErrorWithError:(NSError *)error

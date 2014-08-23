@@ -311,8 +311,6 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     {
         XMLDictionaryParser *parser = [XMLDictionaryParser sharedInstance];
         NSDictionary *dict = [parser dictionaryWithParser:responseObject];
-        NSLog(@"BING DICT:%@", dict);
-        NSLog(@"BING XML:%@", [dict innerText]);
         completion([dict innerText], nil, nil);
     }
     failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -349,8 +347,6 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     {
          XMLDictionaryParser *parser = [XMLDictionaryParser sharedInstance];
          NSDictionary *dict = [parser dictionaryWithParser:responseObject];
-         NSLog(@"BING DICT:%@", dict);
-         NSLog(@"BING XML:%@", [dict innerText]);
          completion([dict innerText], FGTranslatorUnknownConfidence, nil);
     }
                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)
