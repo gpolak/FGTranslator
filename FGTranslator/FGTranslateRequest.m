@@ -298,6 +298,8 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     // message
     [queryString appendFormat:@"&text=%@", [NSString urlEncodedStringFromString:message]];
     
+    [queryString appendString:@"&contentType=text/plain"];
+    
     NSURL *requestURL = [NSURL URLWithString:queryString relativeToURL:base];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestURL];
     
