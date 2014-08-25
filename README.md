@@ -40,8 +40,12 @@ To use this library you need a valid Google or Bing (Azure) developer account.
 
 Google and Bing Translate are both paid services, but Bing offers a free tier. Google's translation quality and language selection is generally better. Pick what works best for you.
 
-- **Google:** https://developers.google.com/translate/v2/getting_started
-- **Bing:** http://www.microsoft.com/web/post/using-the-free-bing-translation-apis
+- **Google**
+  1. https://developers.google.com/translate/v2/getting_started
+- **Bing** 
+  1. Subscribe to the Microsoft Translator API on [Azure Marketplace](http://go.microsoft.com/?linkid=9782667). Basic subscriptions, up to 2 million characters a month, are free.
+  2. To register your application with Azure DataMarket, visit https://datamarket.azure.com/developer/applications/ using the LiveID credentials from step 1, and click on “Register”. In the “Register your application” dialog box, you can define your own Client ID and Name. The redirect URI is not used for the Microsoft Translator API. However, the redirect URI field is a mandatory field, and you must provide a URI to obtain the access code (just use *http://example.com* to make it happy). 
+Take a note of the **client ID** and the **client secret** value.
 
 
 ## Running the Demo
