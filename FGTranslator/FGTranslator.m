@@ -149,6 +149,8 @@ float const FGTranslatorUnknownConfidence = -1;
         NSString *cachedSource = [cached objectForKey:@"src"];
         NSString *cachedTranslation = [cached objectForKey:@"txt"];
         
+        NSLog(@"FGTranslator: returning cached translation");
+        
         completion(nil, cachedTranslation, cachedSource);
         return;
     }
@@ -402,6 +404,7 @@ float const FGTranslatorUnknownConfidence = -1;
     else
     {
         self.completionHandler(nil, translatedMessage, detectedSource);
+        [self cacheText:original translated:translatedMessage source:detectedSource];
     }
 }
 
