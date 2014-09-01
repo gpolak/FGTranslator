@@ -30,6 +30,10 @@ static NSString *const BING_CLIENT_SECRET = nil;
     
     // pre-load the text view
     self.textView.text = @"Bonjour!";
+    
+    // not needed in production code, but making sure the demo is clean on each run
+    [FGTranslator flushCache];
+    [FGTranslator flushCredentials];
 }
 
 - (IBAction)translate:(UIButton *)sender
