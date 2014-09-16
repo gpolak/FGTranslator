@@ -14,7 +14,7 @@
 
 @implementation FGTranslateRequest
 
-NSString *const FG_TRANSLATOR_ERROR_DOMAIN = @"FarGateTranslationErrorDomain";
+NSString *const FG_TRANSLATOR_ERROR_DOMAIN = @"FGTranslatorErrorDomain";
 
 NSString *const FG_TRANSLATOR_AZURE_TOKEN = @"FG_TRANSLATOR_AZURE_TOKEN";
 NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_EXPIRY";
