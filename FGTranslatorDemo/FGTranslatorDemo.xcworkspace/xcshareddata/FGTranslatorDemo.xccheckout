@@ -10,29 +10,29 @@
 	<string>FGTranslatorDemo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>E99F1C15-7BD2-49D3-B68F-49836BC38854</key>
+		<key>CFFC5384449AEE3212E2994529168D0081744272</key>
 		<string>ssh://github.com/gpolak/FGTranslator.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>FGTranslatorDemo/FGTranslatorDemo.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E99F1C15-7BD2-49D3-B68F-49836BC38854</key>
+		<key>CFFC5384449AEE3212E2994529168D0081744272</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/gpolak/FGTranslator.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E99F1C15-7BD2-49D3-B68F-49836BC38854</string>
+	<string>CFFC5384449AEE3212E2994529168D0081744272</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>E99F1C15-7BD2-49D3-B68F-49836BC38854</string>
+			<string>CFFC5384449AEE3212E2994529168D0081744272</string>
 			<key>IDESourceControlWCCName</key>
 			<string>FGTranslator</string>
 		</dict>
