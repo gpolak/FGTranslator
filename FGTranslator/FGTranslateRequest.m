@@ -70,6 +70,8 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
+        NSLog(@"FGTranslator: failed Google translate: %@", operation.responseObject);
+        
         NSInteger code = error.code == 400 ? FGTranslationErrorBadRequest : FGTranslationErrorOther;
         NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:code userInfo:nil];
         
@@ -117,6 +119,8 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
          
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
+         NSLog(@"FGTranslator: failed Google language detect: %@", operation.responseObject);
+         
          NSInteger code = error.code == 400 ? FGTranslationErrorBadRequest : FGTranslationErrorOther;
          NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:code userInfo:nil];
          
@@ -166,6 +170,8 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
          
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
+         NSLog(@"FGTranslator: failed Google supported languages: %@", operation.responseObject);
+         
          NSInteger code = error.code == 400 ? FGTranslationErrorBadRequest : FGTranslationErrorOther;
          NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:code userInfo:nil];
          
@@ -206,6 +212,8 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
             }
             else
             {
+                NSLog(@"FGTranslator: failed Bing translate: %@", operation.responseObject);
+                
                 NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorNoToken userInfo:error.userInfo];
                 completion(nil, nil, fgError);
             }
@@ -240,6 +248,8 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
             }
             else
             {
+                NSLog(@"FGTranslator: failed Bing language detection: %@", operation.responseObject);
+                
                 NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorNoToken userInfo:error.userInfo];
                 completion(nil, 0, fgError);
             }
@@ -269,6 +279,8 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
             }
             else
             {
+                NSLog(@"FGTranslator: failed Bing supported languages:%@", operation.responseObject);
+                
                 NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorNoToken userInfo:error.userInfo];
                 completion(nil, fgError);
             }
@@ -347,14 +359,14 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
     {
-         XMLDictionaryParser *parser = [XMLDictionaryParser sharedInstance];
-         NSDictionary *dict = [parser dictionaryWithParser:responseObject];
-         completion([dict innerText], FGTranslatorUnknownConfidence, nil);
+        XMLDictionaryParser *parser = [XMLDictionaryParser sharedInstance];
+        NSDictionary *dict = [parser dictionaryWithParser:responseObject];
+        completion([dict innerText], FGTranslatorUnknownConfidence, nil);
     }
                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
-         NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorOther userInfo:error.userInfo];
-         completion(nil, FGTranslatorUnknownConfidence, fgError);
+        NSError *fgError = [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:FGTranslationErrorOther userInfo:error.userInfo];
+        completion(nil, FGTranslatorUnknownConfidence, fgError);
     }];
     
     [operation start];
