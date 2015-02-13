@@ -199,6 +199,10 @@ FGTranslator uses the following projects:
 - [XMLDictionary](https://github.com/nicklockwood/XMLDictionary)
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking)
 	- I also cribbed some parts of the README. Great job explaining CocoaPods usage guys!
+	
+## License
+
+FGTranslator is available under the MIT license. See the LICENSE file for more info.
 
 
 ## Misc
