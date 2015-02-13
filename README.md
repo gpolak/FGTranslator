@@ -3,10 +3,27 @@
 A simple iOS library for Google & Bing translation APIs.
 
 
-## Quick Start
+## Quick Start (Google)
 
 ```objective-c
 FGTranslator *translator = [[FGTranslator alloc] initWithGoogleAPIKey:@"your_google_key"];
+
+[translator translateText:@"Bonjour!" 
+               completion:^(NSError *error, NSString *translated, NSString *sourceLanguage)
+{
+	if (error)
+    	NSLog(@"translation failed with error: %@", error);
+	else
+		NSLog(@"translated from %@: %@", sourceLanguage, translated);
+}];
+```
+
+## Quick Start (Bing)
+
+```objective-c
+FGTranslator *translator =
+	[[FGTranslator alloc] initWithBingAzureClientId:@"your_azure_client_id"
+											 secret:@"your_azure_client_secret"];
 
 [translator translateText:@"Bonjour!" 
                completion:^(NSError *error, NSString *translated, NSString *sourceLanguage)
