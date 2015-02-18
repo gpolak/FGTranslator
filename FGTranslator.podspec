@@ -16,5 +16,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency 'AFNetworking', '~> 2.2'
+  s.dependency 'TMCache', '~> 1.2'
 
 end

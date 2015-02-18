@@ -10,6 +10,7 @@
 #import "FGTranslateRequest.h"
 #import "NSString+FGTranslator.h"
 #import <AFNetworking.h>
+#import <TMCache.h>
 
 typedef NSInteger FGTranslatorState;
 
@@ -42,12 +43,9 @@ float const FGTranslatorUnknownConfidence = -1;
 
 - (id)initWithGoogleAPIKey:(NSString *)key
 {
-    self = [super init];
+    self = [self initGeneric];
     if (self)
     {
-        self.preferSourceGuess = YES;
-        self.translatorState = FGTranslatorStateInitial;
-        
         self.googleAPIKey = key;
     }
     
@@ -56,12 +54,9 @@ float const FGTranslatorUnknownConfidence = -1;
 
 - (id)initWithBingAzureClientId:(NSString *)clientId secret:(NSString *)secret
 {
-    self = [super init];
+    self = [self initGeneric];
     if (self)
     {
-        self.preferSourceGuess = YES;
-        self.translatorState = FGTranslatorStateInitial;
-        
         self.azureClientId = clientId;
         self.azureClientSecret = secret;
     }
@@ -69,14 +64,20 @@ float const FGTranslatorUnknownConfidence = -1;
     return self;
 }
 
-+ (NSCache *)translationCache
+- (id)initGeneric
 {
-    static dispatch_once_t pred = 0;
-    __strong static NSCache *translationCache = nil;
-    dispatch_once(&pred, ^{
-        translationCache = [[NSCache alloc] init];
-    });
-    return translationCache;
+    self = [super init];
+    if (self)
+    {
+        self.preferSourceGuess = YES;
+        self.translatorState = FGTranslatorStateInitial;
+        
+        // limit translation cache to 5 MB
+        TMCache *cache = [TMCache sharedCache];
+        cache.diskCache.byteLimit = 5000000;
+    }
+    
+    return self;
 }
 
 + (void)flushCredentials
@@ -86,7 +87,7 @@ float const FGTranslatorUnknownConfidence = -1;
 
 + (void)flushCache
 {
-    [[FGTranslator translationCache] removeAllObjects];
+    [[TMCache sharedCache] removeAllObjects];
 }
 
 - (void)cacheText:(NSString *)text translated:(NSString *)translated source:(NSString *)source
@@ -99,7 +100,7 @@ float const FGTranslatorUnknownConfidence = -1;
     if (source)
         [cached setObject:source forKey:@"src"];
     
-    [[FGTranslator translationCache] setObject:cached forKey:text];
+    [[TMCache sharedCache] setObject:cached forKey:text];
 }
 
 - (void)translateText:(NSString *)text
@@ -142,8 +143,7 @@ float const FGTranslatorUnknownConfidence = -1;
     }
     
     // check cache for existing translation
-    NSCache *cache = [FGTranslator translationCache];
-    NSDictionary *cached = [cache objectForKey:text];
+    NSDictionary *cached = [[TMCache sharedCache] objectForKey:text];
     if (cached)
     {
         NSString *cachedSource = [cached objectForKey:@"src"];
