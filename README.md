@@ -35,6 +35,12 @@ FGTranslator *translator =
 }];
 ```
 
+## Demo
+
+1. Go to the FGTranslatorDemo directory.
+2. Open the `.xcworkspace` (**not the `.xcodeproj`!**) file.
+3. Run the app.
+
 ## Adding FGTranslator to Your Project
 
 ### CocoaPods
@@ -65,12 +71,6 @@ Google and Bing Translate are both paid services, but Bing offers a free tier. G
 Take a note of the **client ID** and the **client secret** value.
   3. Make sure you have an [Active Subscription](https://datamarket.azure.com/dataset/bing/microsofttranslator) data plan. The first tier (2M characters) is free.
 
-
-## Running the Demo
-
-1. Go to the FGTranslatorDemo directory.
-2. Open the `.xcworkspace` (**not the `.xcodeproj`!**) file.
-3. Run the app.
 
 ## Usage
 
