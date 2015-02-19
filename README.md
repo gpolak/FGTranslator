@@ -70,9 +70,7 @@ Take a note of the **client ID** and the **client secret** value.
 
 1. Go to the FGTranslatorDemo directory.
 2. Open the `.xcworkspace` (**not the `.xcodeproj`!**) file.
-3. Navigate to the `ViewController.m` file in the `FGTranslatorDemo` folder.
-4. Look for the `GOOGLE_API_KEY` (or the Bing equivalent below) constant at the top of the file and set it to your key.
-5. Run the app in the Simulator.
+3. Run the app.
 
 ## Usage
 
@@ -199,7 +197,6 @@ Translations are cached to prevent unnecessary network calls (and Google/Bing AP
 ```objective-c
 + (void)flushCache;
 ```
-> Note: The translation cache is implemented as a simple NSCache and hence will be cleared periodically by the OS. 
 	
 ### Flush Credentials *(Bing Only)*
 
