@@ -149,10 +149,10 @@ float const FGTranslatorUnknownConfidence = -1;
         NSString *cachedSource = [cached objectForKey:@"src"];
         NSString *cachedTranslation = [cached objectForKey:@"txt"];
 		
-		NSLog(@"FGTranslator: returning cached translation");
+	NSLog(@"FGTranslator: returning cached translation");
 			
-		completion(nil, cachedTranslation, cachedSource);
-		return;
+	completion(nil, cachedTranslation, cachedSource);
+	return;
     }
 	
     source = [self filteredLanguageCodeFromCode:source];
