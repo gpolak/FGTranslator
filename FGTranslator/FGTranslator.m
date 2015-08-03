@@ -9,8 +9,8 @@
 #import "FGTranslator.h"
 #import "FGTranslateRequest.h"
 #import "NSString+FGTranslator.h"
-#import <AFNetworking.h>
-#import <TMCache.h>
+#import "AFNetworking.h"
+#import "TMCache.h"
 
 typedef NSInteger FGTranslatorState;
 
@@ -90,7 +90,7 @@ float const FGTranslatorUnknownConfidence = -1;
     [[TMCache sharedCache] removeAllObjects];
 }
 
-- (void)cacheText:(NSString *)text translated:(NSString *)translated source:(NSString *)source
+- (void)cacheText:(NSString *)text translated:(NSString *)translated source:(NSString *)source target: (NSString *)target
 {
     if (!text || !translated)
         return;
@@ -99,8 +99,11 @@ float const FGTranslatorUnknownConfidence = -1;
     [cached setObject:translated forKey:@"txt"];
     if (source)
         [cached setObject:source forKey:@"src"];
-    
-    [[TMCache sharedCache] setObject:cached forKey:text];
+	if (target){
+		[cached setObject:target forKey:@"target"];
+	}
+	
+    [[TMCache sharedCache] setObject:cached forKey:[text stringByAppendingString:[@"|" stringByAppendingString:target]]];
 }
 
 - (void)translateText:(NSString *)text
@@ -143,18 +146,22 @@ float const FGTranslatorUnknownConfidence = -1;
     }
     
     // check cache for existing translation
-    NSDictionary *cached = [[TMCache sharedCache] objectForKey:text];
+    NSDictionary *cached = [[TMCache sharedCache] objectForKey:[text stringByAppendingString:[@"|" stringByAppendingString:target]]];
     if (cached)
     {
         NSString *cachedSource = [cached objectForKey:@"src"];
         NSString *cachedTranslation = [cached objectForKey:@"txt"];
-        
-        NSLog(@"FGTranslator: returning cached translation");
-        
-        completion(nil, cachedTranslation, cachedSource);
-        return;
+		NSString *cachedTarget = [cached objectForKey:@"target"];
+		
+		if ([cachedTarget isEqualToString:[self filteredLanguageCodeFromCode:target]]){
+			
+			NSLog(@"FGTranslator: returning cached translation");
+			
+			completion(nil, cachedTranslation, cachedSource);
+			return;
+		}
     }
-    
+	
     source = [self filteredLanguageCodeFromCode:source];
     if (!target)
         target = [self filteredLanguageCodeFromCode:[[NSLocale preferredLanguages] objectAtIndex:0]];
@@ -179,7 +186,7 @@ float const FGTranslatorUnknownConfidence = -1;
             if (error)
                 [self handleError:error];
             else
-                [self handleSuccessWithOriginal:text translatedMessage:translatedMessage detectedSource:detectedSource];
+                [self handleSuccessWithOriginal:text translatedMessage:translatedMessage detectedSource:detectedSource target:target];
             
             self.translatorState = FGTranslatorStateCompleted;
         }];
@@ -196,7 +203,7 @@ float const FGTranslatorUnknownConfidence = -1;
             if (error)
                 [self handleError:error];
             else
-                [self handleSuccessWithOriginal:text translatedMessage:translatedMessage detectedSource:detectedSource];
+                [self handleSuccessWithOriginal:text translatedMessage:translatedMessage detectedSource:detectedSource target:target];
             
             self.translatorState = FGTranslatorStateCompleted;
         }];
@@ -394,6 +401,7 @@ float const FGTranslatorUnknownConfidence = -1;
 - (void)handleSuccessWithOriginal:(NSString *)original
                 translatedMessage:(NSString *)translatedMessage
                    detectedSource:(NSString *)detectedSource
+						   target:(NSString *)target
 {
     if ([self isTranslated:translatedMessage sameAsOriginal:original])
     {
@@ -404,7 +412,7 @@ float const FGTranslatorUnknownConfidence = -1;
     else
     {
         self.completionHandler(nil, translatedMessage, detectedSource);
-        [self cacheText:original translated:translatedMessage source:detectedSource];
+        [self cacheText:original translated:translatedMessage source:detectedSource target:target];
     }
 }
 
