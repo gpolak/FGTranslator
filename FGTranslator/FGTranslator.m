@@ -99,9 +99,6 @@ float const FGTranslatorUnknownConfidence = -1;
     [cached setObject:translated forKey:@"txt"];
     if (source)
         [cached setObject:source forKey:@"src"];
-	if (target){
-		[cached setObject:target forKey:@"target"];
-	}
 	
     [[TMCache sharedCache] setObject:cached forKey:[text stringByAppendingString:[@"|" stringByAppendingString:target]]];
 }
@@ -151,15 +148,11 @@ float const FGTranslatorUnknownConfidence = -1;
     {
         NSString *cachedSource = [cached objectForKey:@"src"];
         NSString *cachedTranslation = [cached objectForKey:@"txt"];
-		NSString *cachedTarget = [cached objectForKey:@"target"];
 		
-		if ([cachedTarget isEqualToString:[self filteredLanguageCodeFromCode:target]]){
+		NSLog(@"FGTranslator: returning cached translation");
 			
-			NSLog(@"FGTranslator: returning cached translation");
-			
-			completion(nil, cachedTranslation, cachedSource);
-			return;
-		}
+		completion(nil, cachedTranslation, cachedSource);
+		return;
     }
 	
     source = [self filteredLanguageCodeFromCode:source];
