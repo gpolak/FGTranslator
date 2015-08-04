@@ -90,6 +90,13 @@ float const FGTranslatorUnknownConfidence = -1;
     [[TMCache sharedCache] removeAllObjects];
 }
 
+- (NSString *)cacheKeyForText:(NSString *)text target:(NSString *)target
+{
+    NSParameterAssert(text);
+    
+    return !target ? text : [text stringByAppendingFormat:@"|%@", target];
+}
+
 - (void)cacheText:(NSString *)text translated:(NSString *)translated source:(NSString *)source target: (NSString *)target
 {
     if (!text || !translated)
@@ -99,8 +106,8 @@ float const FGTranslatorUnknownConfidence = -1;
     [cached setObject:translated forKey:@"txt"];
     if (source)
         [cached setObject:source forKey:@"src"];
-	
-    [[TMCache sharedCache] setObject:cached forKey:[text stringByAppendingString:[@"|" stringByAppendingString:target]]];
+    
+    [[TMCache sharedCache] setObject:cached forKey:[self cacheKeyForText:text target:target]];
 }
 
 - (void)translateText:(NSString *)text
@@ -143,16 +150,16 @@ float const FGTranslatorUnknownConfidence = -1;
     }
     
     // check cache for existing translation
-    NSDictionary *cached = [[TMCache sharedCache] objectForKey:[text stringByAppendingString:[@"|" stringByAppendingString:target]]];
+    NSDictionary *cached = [[TMCache sharedCache] objectForKey:[self cacheKeyForText:text target:target]];
     if (cached)
     {
         NSString *cachedSource = [cached objectForKey:@"src"];
         NSString *cachedTranslation = [cached objectForKey:@"txt"];
 		
-	NSLog(@"FGTranslator: returning cached translation");
+        NSLog(@"FGTranslator: returning cached translation");
 			
-	completion(nil, cachedTranslation, cachedSource);
-	return;
+        completion(nil, cachedTranslation, cachedSource);
+        return;
     }
 	
     source = [self filteredLanguageCodeFromCode:source];
