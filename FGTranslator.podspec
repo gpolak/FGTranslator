@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "FGTranslator"
-  s.version      = "1.1.0"
+  s.version      = "1.1.1"
   s.summary      = "iOS library for Google and Bing translation services"
   s.homepage     = "https://github.com/gpolak/FGTranslator"
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "6.0"
 
-  s.source       = { :git => "https://github.com/gpolak/FGTranslator.git", :tag => "1.1.0" }
+  s.source       = { :git => "https://github.com/gpolak/FGTranslator.git", :tag => "1.1.1" }
 
   s.source_files = 'FGTranslator', 'FGTranslator/XMLDictionary'
   s.requires_arc = true
