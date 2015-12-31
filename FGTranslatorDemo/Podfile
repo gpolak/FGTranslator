@@ -2,6 +2,6 @@ platform :ios, '7.0'
 
 inhibit_all_warnings!
 
-pod 'AFNetworking', '~> 2.2'
-pod 'TMCache', '~> 1.2'
+pod 'AFNetworking', '~> 2.0'
+pod 'TMCache', '~> 2.0'
 pod 'SVProgressHUD', :head

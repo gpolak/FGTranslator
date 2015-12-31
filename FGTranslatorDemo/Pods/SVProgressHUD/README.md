@@ -1,14 +1,23 @@
 # SVProgressHUD
 
-`SVProgressHUD` is a clean and easy-to-use HUD meant to display the progress of an ongoing task.
+![Pod Version](https://img.shields.io/cocoapods/v/SVProgressHUD.svg?style=flat)
+![Pod License](https://img.shields.io/cocoapods/l/SVProgressHUD.svg?style=flat)
+![Pod Platform](https://img.shields.io/cocoapods/p/SVProgressHUD.svg?style=flat)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
+`SVProgressHUD` is a clean and easy-to-use HUD meant to display the progress of an ongoing task on iOS and tvOS.
 
 ![SVProgressHUD](http://f.cl.ly/items/2G1F1Z0M0k0h2U3V1p39/SVProgressHUD.gif)
+
+## Demo
+
+Try `SVProgressHUD` on [Appetize.io](https://appetize.io/app/p8r2cvy8kq74x7q7tjqf5gyatr).
 
 ## Installation
 
 ### From CocoaPods
 
-[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like `SVProgressHUD` in your projects. Simply add the following line to your [Podfile](http://guides.cocoapods.org/using/using-cocoapods.html):
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like `SVProgressHUD` in your projects. First, add the following line to your [Podfile](http://guides.cocoapods.org/using/using-cocoapods.html):
 
 ```ruby
 pod 'SVProgressHUD'
@@ -21,6 +30,18 @@ pod 'SVProgressHUD', :head
 ```
 
 This pulls from the `master` branch directly. We are usually careful about what we push there and this is the version we use ourselves in all of our projects.
+
+Second, install `SVProgressHUD` into your project:
+
+```ruby
+pod install
+```
+
+### Carthage
+
+You can install `SVProgressHUD` with [Carthage](https://github.com/Carthage/Carthage).
+
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/TransitApp/SVProgressHUD)
 
 ### Manually
 
@@ -54,9 +75,7 @@ You can show the status of indeterminate tasks using one of the following:
 
 ```objective-c
 + (void)show;
-+ (void)showWithMaskType:(SVProgressHUDMaskType)maskType;
 + (void)showWithStatus:(NSString*)string;
-+ (void)showWithStatus:(NSString*)string maskType:(SVProgressHUDMaskType)maskType;
 ```
 
 If you'd like the HUD to reflect the progress of a task, use one of these:
@@ -64,15 +83,15 @@ If you'd like the HUD to reflect the progress of a task, use one of these:
 ```objective-c
 + (void)showProgress:(CGFloat)progress;
 + (void)showProgress:(CGFloat)progress status:(NSString*)status;
-+ (void)showProgress:(CGFloat)progress status:(NSString*)status maskType:(SVProgressHUDMaskType)maskType;
 ```
 
 ### Dismissing the HUD
 
-It can be dismissed right away using:
+The HUD can be dismissed using:
 
 ```objective-c
 + (void)dismiss;
++ (void)dismissWithDelay:(NSTimeInterval)delay;
 ```
 
 If you'd like to stack HUDs, you can balance out every show call using:
@@ -87,13 +106,9 @@ Or show a confirmation glyph before before getting dismissed a little bit later.
 
 ```objective-c
 + (void)showInfoWithStatus:(NSString *)string;
-+ (void)showInfoWithStatus:(NSString *)string maskType:(SVProgressHUDMaskType)maskType;
 + (void)showSuccessWithStatus:(NSString*)string;
-+ (void)showSuccessWithStatus:(NSString*)string maskType:(SVProgressHUDMaskType)maskType;
 + (void)showErrorWithStatus:(NSString *)string;
-+ (void)showErrorWithStatus:(NSString *)string maskType:(SVProgressHUDMaskType)maskType;
 + (void)showImage:(UIImage*)image status:(NSString*)string;
-+ (void)showImage:(UIImage*)image status:(NSString*)status maskType:(SVProgressHUDMaskType)maskType;
 ```
 
 ## Customization
@@ -101,16 +116,34 @@ Or show a confirmation glyph before before getting dismissed a little bit later.
 `SVProgressHUD` can be customized via the following methods:
 
 ```objective-c
-+ (void)setBackgroundColor:(UIColor*)color;                 // default is [UIColor whiteColor]
-+ (void)setForegroundColor:(UIColor*)color;                 // default is [UIColor blackColor]
-+ (void)setRingThickness:(CGFloat)width;                    // default is 4 pt
-+ (void)setFont:(UIFont*)font;                              // default is [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]
-+ (void)setInfoImage:(UIImage*)image;                       // default is the bundled info image provided by Freepik
-+ (void)setSuccessImage:(UIImage*)image;                    // default is bundled success image from Freepik
-+ (void)setErrorImage:(UIImage*)image;                      // default is bundled error image from Freepik
-+ (void)setDefaultMaskType:(SVProgressHUDMaskType)maskType; // default is SVProgressHUDMaskTypeNone
-+ (void)setViewForExtension:(UIView*)view;                  // default is nil, only used if #define SV_APP_EXTENSIONS is set
++ (void)setDefaultStyle:(SVProgressHUDStyle)style;                  // default is SVProgressHUDStyleLight
++ (void)setDefaultMaskType:(SVProgressHUDMaskType)maskType;         // default is SVProgressHUDMaskTypeNone
++ (void)setDefaultAnimationType:(SVProgressHUDAnimationType)type;   // default is SVProgressHUDAnimationTypeFlat
++ (void)setMinimumSize:(CGSize)minimumSize;                         // default is CGSizeZero, can be used to avoid resizing for a larger message
++ (void)setRingThickness:(CGFloat)width;                            // default is 2 pt
++ (void)setRingRadius:(CGFloat)radius;                              // default is 18 pt
++ (void)setRingNoTextRadius:(CGFloat)radius;                        // default is 24 pt
++ (void)setCornerRadius:(CGFloat)cornerRadius;                      // default is 14 pt
++ (void)setFont:(UIFont*)font;                                      // default is [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]
++ (void)setForegroundColor:(UIColor*)color;                         // default is [UIColor blackColor], only used for SVProgressHUDStyleCustom
++ (void)setBackgroundColor:(UIColor*)color;                         // default is [UIColor whiteColor], only used for SVProgressHUDStyleCustom
++ (void)setInfoImage:(UIImage*)image;                               // default is the bundled info image provided by Freepik
++ (void)setSuccessImage:(UIImage*)image;                            // default is bundled success image from Freepik
++ (void)setErrorImage:(UIImage*)image;                              // default is bundled error image from Freepik
++ (void)setViewForExtension:(UIView*)view;                          // default is nil, only used if #define SV_APP_EXTENSIONS is set
++ (void)setMinimumDismissTimeInterval:(NSTimeInterval)interval;     // default is 5.0 seconds
 ```
+
+Additionally `SVProgressHUD` supports the `UIAppearance` protocol for most of the above methods.
+
+### Hint
+
+As standard `SVProgressHUD` offers two preconfigured styles:
+
+* `SVProgressHUDStyleLight`: White background with black spinner and text
+* `SVProgressHUDStyleDark`: Black background with white spinner and text
+
+If you want to use custom colors with `setForegroundColor` and `setBackgroundColor:`  don't forget to set `SVProgressHUDStyleCustom` via `setDefaultStyle:`.
 
 ## Notifications
 
@@ -126,11 +159,11 @@ Each notification passes a `userInfo` dictionary holding the HUD's status string
 
 ## App Extensions
 
-When using `SVProgressHUD` in an App Extension, #define SV_APP_EXTENSIONS to avoid using unavailable APIs. Additionally call `setViewForExtension:` from your extensions view controller with `self.view`.
+When using `SVProgressHUD` in an App Extension, `#define SV_APP_EXTENSIONS` to avoid using unavailable APIs. Additionally call `setViewForExtension:` from your extensions view controller with `self.view`.
 
 ## Contributing to this project
 
-If you have feature requests or bug reports, feel free to help out by sending pull requests or by [creating new issues](https://github.com/samvermette/SVProgressHUD/issues/new). Please take a moment to
+If you have feature requests or bug reports, feel free to help out by sending pull requests or by [creating new issues](https://github.com/TransitApp/SVProgressHUD/issues/new). Please take a moment to
 review the guidelines written by [Nicolas Gallagher](https://github.com/necolas/):
 
 * [Bug reports](https://github.com/necolas/issue-guidelines/blob/master/CONTRIBUTING.md#bugs)
@@ -139,4 +172,4 @@ review the guidelines written by [Nicolas Gallagher](https://github.com/necolas/
 
 ## Credits
 
-`SVProgressHUD` is brought to you by [Sam Vermette](http://samvermette.com) and [contributors to the project](https://github.com/samvermette/SVProgressHUD/contributors). If you're using `SVProgressHUD` in your project, attribution would be very appreciated. The info, success and error icons are made by [Freepik](http://www.freepik.com) from [Flaticon](www.flaticon.com) and are licensed under [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/). 
+`SVProgressHUD` is brought to you by [Sam Vermette](http://samvermette.com) and [contributors to the project](https://github.com/TransitApp/SVProgressHUD/contributors). If you're using `SVProgressHUD` in your project, attribution would be very appreciated. The success, error and info icons are made by [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com) and are licensed under [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/). 

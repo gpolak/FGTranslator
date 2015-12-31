@@ -1,9 +1,8 @@
 //
 //  SVIndefiniteAnimatedView.m
-//  SVProgressHUD
+//  SVProgressHUD, https://github.com/TransitApp/SVProgressHUD
 //
-//  Created by Guillaume Campagna on 2014-12-05.
-//
+//  Copyright (c) 2014 Guillaume Campagna. All rights reserved.
 //
 
 #import "SVIndefiniteAnimatedView.h"
@@ -29,9 +28,11 @@
 
 - (void)layoutAnimatedLayer {
     CALayer *layer = self.indefiniteAnimatedLayer;
-    
     [self.layer addSublayer:layer];
-    layer.position = CGPointMake(CGRectGetWidth(self.bounds) - CGRectGetWidth(layer.bounds) / 2, CGRectGetHeight(self.bounds) - CGRectGetHeight(layer.bounds) / 2);
+    
+    CGFloat widthDiff = CGRectGetWidth(self.bounds) - CGRectGetWidth(layer.bounds);
+    CGFloat heightDiff = CGRectGetHeight(self.bounds) - CGRectGetHeight(layer.bounds);
+    layer.position = CGPointMake(CGRectGetWidth(self.bounds) - CGRectGetWidth(layer.bounds) / 2 - widthDiff / 2, CGRectGetHeight(self.bounds) - CGRectGetHeight(layer.bounds) / 2 - heightDiff / 2);
 }
 
 - (CAShapeLayer*)indefiniteAnimatedLayer {
@@ -41,8 +42,8 @@
         
         UIBezierPath* smoothedPath = [UIBezierPath bezierPathWithArcCenter:arcCenter
                                                                     radius:self.radius
-                                                                startAngle:M_PI*3/2
-                                                                  endAngle:M_PI/2+M_PI*5
+                                                                startAngle:(CGFloat) (M_PI*3/2)
+                                                                  endAngle:(CGFloat) (M_PI/2+M_PI*5)
                                                                  clockwise:YES];
         
         _indefiniteAnimatedLayer = [CAShapeLayer layer];
@@ -56,7 +57,13 @@
         _indefiniteAnimatedLayer.path = smoothedPath.CGPath;
         
         CALayer *maskLayer = [CALayer layer];
-        maskLayer.contents = (id)[[UIImage imageNamed:@"SVProgressHUD.bundle/angle-mask"] CGImage];
+        
+        NSBundle *bundle = [NSBundle bundleForClass:self.class];
+        NSURL *url = [bundle URLForResource:@"SVProgressHUD" withExtension:@"bundle"];
+        NSBundle *imageBundle = [NSBundle bundleWithURL:url];
+        NSString *path = [imageBundle pathForResource:@"angle-mask" ofType:@"png"];
+        
+        maskLayer.contents = (__bridge id)[[UIImage imageWithContentsOfFile:path] CGImage];
         maskLayer.frame = _indefiniteAnimatedLayer.bounds;
         _indefiniteAnimatedLayer.mask = maskLayer;
         
@@ -64,8 +71,8 @@
         CAMediaTimingFunction *linearCurve = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
         
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-        animation.fromValue = 0;
-        animation.toValue = [NSNumber numberWithFloat:M_PI*2];
+        animation.fromValue = (id) 0;
+        animation.toValue = @(M_PI*2);
         animation.duration = animationDuration;
         animation.timingFunction = linearCurve;
         animation.removedOnCompletion = NO;
@@ -96,21 +103,26 @@
 }
 
 - (void)setFrame:(CGRect)frame {
-    [super setFrame:frame];
-    
-    if (self.superview) {
-        [self layoutAnimatedLayer];
+    if(!CGRectEqualToRect(frame, super.frame)){
+        [super setFrame:frame];
+        
+        if (self.superview) {
+            [self layoutAnimatedLayer];
+        }
     }
+    
 }
 
 - (void)setRadius:(CGFloat)radius {
-    _radius = radius;
-    
-    [_indefiniteAnimatedLayer removeFromSuperlayer];
-    _indefiniteAnimatedLayer = nil;
-    
-    if (self.superview) {
-        [self layoutAnimatedLayer];
+    if(radius != _radius){
+        _radius = radius;
+        
+        [_indefiniteAnimatedLayer removeFromSuperlayer];
+        _indefiniteAnimatedLayer = nil;
+        
+        if (self.superview) {
+            [self layoutAnimatedLayer];
+        }
     }
 }
 

@@ -8,14 +8,14 @@ Pod::Spec.new do |s|
   
   s.author       = { "George Polak" => "george.polak@gmail.com" }
 
-  s.platform     = :ios, "6.0"
+  s.platform     = :ios, "7.0"
 
   s.source       = { :git => "https://github.com/gpolak/FGTranslator.git", :tag => "1.1.1" }
 
   s.source_files = 'FGTranslator', 'FGTranslator/XMLDictionary'
   s.requires_arc = true
 
-  s.dependency 'AFNetworking', '~> 2.2'
-  s.dependency 'TMCache', '~> 1.2'
+  s.dependency 'AFNetworking', '~> 2.0'
+  s.dependency 'TMCache', '~> 2.0'
 
 end
