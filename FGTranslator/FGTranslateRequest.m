@@ -415,7 +415,7 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
     NSMutableString *queryString = [NSMutableString string];
     [queryString appendFormat:@"client_id=%@", clientId];
     [queryString appendFormat:@"&client_secret=%@", [NSString urlEncodedStringFromString:clientSecret]];
-    [queryString appendString:@"&scope=https://api.microsofttranslator.com"];
+    [queryString appendString:@"&scope=http://api.microsofttranslator.com"];
     [queryString appendString:@"&grant_type=client_credentials"];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:base];
