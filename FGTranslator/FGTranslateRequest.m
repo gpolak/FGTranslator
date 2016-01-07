@@ -296,7 +296,7 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
                                              token:(FGAzureToken *)token
                                         completion:(void (^)(NSString *translatedMessage, NSString *detectedSource, NSError *error))completion
 {
-    NSURL *base = [NSURL URLWithString:@"http://api.microsofttranslator.com/V2/Http.svc/Translate"];
+    NSURL *base = [NSURL URLWithString:@"https://api.microsofttranslator.com/V2/Http.svc/Translate"];
     
     NSMutableString *queryString = [NSMutableString string];
     
@@ -341,7 +341,7 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
                                            token:(FGAzureToken *)token
                                       completion:(void (^)(NSString *detectedSource, float confidence, NSError *error))completion
 {
-    NSURL *base = [NSURL URLWithString:@"http://api.microsofttranslator.com/V2/Http.svc/Detect"];
+    NSURL *base = [NSURL URLWithString:@"https://api.microsofttranslator.com/V2/Http.svc/Detect"];
     
     NSMutableString *queryString = [NSMutableString string];
     
@@ -376,7 +376,7 @@ NSString *const FG_TRANSLATOR_AZURE_TOKEN_EXPIRY = @"FG_TRANSLATOR_AZURE_TOKEN_E
 + (AFHTTPRequestOperation *)doBingSupportedLanguagesWithToken:(FGAzureToken *)token
                                                    completion:(void (^)(NSArray *languageCodes, NSError *error))completion
 {
-    NSURL *base = [NSURL URLWithString:@"http://api.microsofttranslator.com/V2/Http.svc/GetLanguagesForTranslate"];
+    NSURL *base = [NSURL URLWithString:@"https://api.microsofttranslator.com/V2/Http.svc/GetLanguagesForTranslate"];
     
     NSMutableString *queryString = [NSMutableString string];
     
