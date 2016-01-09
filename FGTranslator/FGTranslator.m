@@ -10,7 +10,7 @@
 #import "FGTranslateRequest.h"
 #import "NSString+FGTranslator.h"
 #import <AFNetworking.h>
-#import <TMCache.h>
+#import <PINCache.h>
 
 typedef NSInteger FGTranslatorState;
 
@@ -73,7 +73,7 @@ float const FGTranslatorUnknownConfidence = -1;
         self.translatorState = FGTranslatorStateInitial;
         
         // limit translation cache to 5 MB
-        TMCache *cache = [TMCache sharedCache];
+        PINCache *cache = [PINCache sharedCache];
         cache.diskCache.byteLimit = 5000000;
     }
     
@@ -87,7 +87,7 @@ float const FGTranslatorUnknownConfidence = -1;
 
 + (void)flushCache
 {
-    [[TMCache sharedCache] removeAllObjects];
+    [[PINCache sharedCache] removeAllObjects];
 }
 
 - (NSString *)cacheKeyForText:(NSString *)text target:(NSString *)target
@@ -107,7 +107,7 @@ float const FGTranslatorUnknownConfidence = -1;
     if (source)
         [cached setObject:source forKey:@"src"];
     
-    [[TMCache sharedCache] setObject:cached forKey:[self cacheKeyForText:text target:target]];
+    [[PINCache sharedCache] setObject:cached forKey:[self cacheKeyForText:text target:target]];
 }
 
 - (void)translateText:(NSString *)text
@@ -150,7 +150,7 @@ float const FGTranslatorUnknownConfidence = -1;
     }
     
     // check cache for existing translation
-    NSDictionary *cached = [[TMCache sharedCache] objectForKey:[self cacheKeyForText:text target:target]];
+    NSDictionary *cached = [[PINCache sharedCache] objectForKey:[self cacheKeyForText:text target:target]];
     if (cached)
     {
         NSString *cachedSource = [cached objectForKey:@"src"];
