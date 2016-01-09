@@ -20,17 +20,17 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - PINCache (2.1.2)
   - SVProgressHUD (HEAD based on 2.0-beta)
-  - TMCache (2.1.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - PINCache (~> 2.1)
   - SVProgressHUD (HEAD)
-  - TMCache (~> 2.0)
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  PINCache: 9e70271f1bdd60c0465b7208adcc4b6acc1fc376
   SVProgressHUD: c83337f10ed32d701c423d519059a249973c8662
-  TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
 
-COCOAPODS: 0.37.1
+COCOAPODS: 0.39.0
