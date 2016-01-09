@@ -94,7 +94,19 @@ float const FGTranslatorUnknownConfidence = -1;
 {
     NSParameterAssert(text);
     
-    return !target ? text : [text stringByAppendingFormat:@"|%@", target];
+    NSMutableString *cacheKey = [NSMutableString stringWithString:text];
+    
+    if (target) {
+        [cacheKey appendFormat:@"|%@", target];
+    }
+    
+    if (self.googleAPIKey) {
+        [cacheKey appendFormat:@"|Google"];
+    } else if (self.azureClientId && self.azureClientSecret) {
+        [cacheKey appendFormat:@"|Azure"];
+    }
+    
+    return cacheKey;
 }
 
 - (void)cacheText:(NSString *)text translated:(NSString *)translated source:(NSString *)source target: (NSString *)target
