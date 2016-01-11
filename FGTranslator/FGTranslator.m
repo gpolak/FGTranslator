@@ -415,17 +415,8 @@ float const FGTranslatorUnknownConfidence = -1;
                    detectedSource:(NSString *)detectedSource
 						   target:(NSString *)target
 {
-    if ([self isTranslated:translatedMessage sameAsOriginal:original])
-    {
-        NSError *fgError = [self errorWithCode:FGTranslatorErrorUnableToTranslate description:@"unable to translate"];
-        if (self.completionHandler)
-            self.completionHandler(fgError, nil, nil);
-    }
-    else
-    {
-        self.completionHandler(nil, translatedMessage, detectedSource);
-        [self cacheText:original translated:translatedMessage source:detectedSource target:target];
-    }
+    self.completionHandler(nil, translatedMessage, detectedSource);
+    [self cacheText:original translated:translatedMessage source:detectedSource target:target];
 }
 
 - (void)cancel
@@ -449,18 +440,6 @@ float const FGTranslatorUnknownConfidence = -1;
         userInfo = [NSDictionary dictionaryWithObject:description forKey:NSLocalizedDescriptionKey];
     
     return [NSError errorWithDomain:FG_TRANSLATOR_ERROR_DOMAIN code:code userInfo:userInfo];
-}
-
-// NOT to be used for general string comparison, just to eliminate translator weirdness
-- (BOOL)isTranslated:(NSString *)translated sameAsOriginal:(NSString *)original
-{
-    if (!translated || !original)
-        return NO;
-    
-    NSString *t = [translated stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString *o = [original stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
-    return [t caseInsensitiveCompare:o] == NSOrderedSame;
 }
 
 // massage languge code to make Google Translate happy
