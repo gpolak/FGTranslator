@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AFNetworking.h>
+#import "AFNetworking.h"
 
 extern NSString *const FG_TRANSLATOR_ERROR_DOMAIN;
 
