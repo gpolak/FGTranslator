@@ -1,4 +1,8 @@
-![FGTranslator](fgtranslator_logo.png)
+## **Note: This repository is no longer being maintained**
+Pull requests welcome, but I'm no longer updating this library to keep up with Google and Microsoft Azure API changes.
+
+
+## FGTranslator
 
 A simple iOS library for Google & Bing translation APIs.
 
